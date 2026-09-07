@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Sales Report</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <div class="user-info">
+
+            <span th:text="${salesperson.name}">
+                Salesperson
+            </span>
+
+            <a href="/sales/logout"
+               class="logout-btn">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <a href="/sales/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/sales/my-sales"
+           class="sidebar-link">
+
+            💰 My Sales
+
+        </a>
+
+        <a href="/sales/my-clients"
+           class="sidebar-link">
+
+            👥 My Clients
+
+        </a>
+
+
+        <a href="/sales/my-target"
+           class="sidebar-link">
+
+            🎯 My Target
+
+        </a>
+
+
+        <a href="/sales/my-report"
+           class="sidebar-link active">
+
+            📈 My Report
+
+        </a>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="dashboard-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    My Sales Report
+                </h1>
+
+                <p>
+                    Sales, target and client performance overview
+                </p>
+
+            </div>
+
+
+            <!-- MONTH SELECTOR -->
+
+            <div class="dashboard-month">
+
+                <form method="get"
+                      action="/sales/my-report">
+
+                    <label for="reportMonth">
+
+                        📅 Month:
+
+                    </label>
+
+                    <input
+                            type="month"
+                            id="reportMonth"
+                            name="month"
+                            th:value="${selectedMonth}"
+                            onchange="this.form.submit()">
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SALES STAT CARDS
+        ========================== -->
+
+        <h2 class="section-title">
+            💰 Sales Performance
+        </h2>
+
+
+        <div class="stats-grid">
+
+
+            <!-- TARGET -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <h4>
+                    Monthly Target
+                </h4>
+
+                <h2>
+
+                    ₹<span
+                        th:text="${#numbers.formatDecimal(
+                            targetAmount,
+                            1,
+                            2
+                        )}">
+
+                        0.00
+
+                    </span>
+
+                </h2>
+
+            </div>
+
+
+            <!-- ACHIEVED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+                <h4>
+                    Achieved
+                </h4>
+
+                <h2>
+
+                    ₹<span
+                        th:text="${#numbers.formatDecimal(
+                            achievedAmount,
+                            1,
+                            2
+                        )}">
+
+                        0.00
+
+                    </span>
+
+                </h2>
+
+            </div>
+
+
+            <!-- REMAINING -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
+                <h4>
+                    Remaining
+                </h4>
+
+                <h2>
+
+                    ₹<span
+                        th:text="${#numbers.formatDecimal(
+                            remainingAmount,
+                            1,
+                            2
+                        )}">
+
+                        0.00
+
+                    </span>
+
+                </h2>
+
+            </div>
+
+
+            <!-- ACHIEVEMENT -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📈
+                </div>
+
+                <h4>
+                    Achievement
+                </h4>
+
+                <h2>
+
+                    <span
+                        th:text="${#numbers.formatDecimal(
+                            achievementPercentage,
+                            1,
+                            2
+                        )}">
+
+                        0.00
+
+                    </span>%
+
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CLIENT STAT CARDS
+        ========================== -->
+
+        <h2 class="section-title">
+
+            👥 Client Performance
+
+        </h2>
+
+
+        <div class="stats-grid">
+
+
+            <!-- CLIENT TARGET -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <h4>
+                    Client Target
+                </h4>
+
+                <h2
+                    th:text="${clientTarget}">
+
+                    0
+
+                </h2>
+
+                <p>
+                    New Clients
+                </p>
+
+            </div>
+
+
+            <!-- ACTUAL CLIENTS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <h4>
+                    New Clients
+                </h4>
+
+                <h2
+                    th:text="${actualClients}">
+
+                    0
+
+                </h2>
+
+                <p>
+                    Added This Month
+                </p>
+
+            </div>
+
+
+            <!-- REMAINING CLIENTS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
+                <h4>
+                    Remaining Clients
+                </h4>
+
+                <h2
+                    th:text="${remainingClients}">
+
+                    0
+
+                </h2>
+
+                <p>
+                    To Reach Target
+                </p>
+
+            </div>
+
+
+            <!-- CLIENT ACHIEVEMENT -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+                <h4>
+                    Client Achievement
+                </h4>
+
+                <h2>
+
+                    <span
+                        th:text="${#numbers.formatDecimal(
+                            clientAchievementPercentage,
+                            1,
+                            2
+                        )}">
+
+                        0.00
+
+                    </span>%
+
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SALES PERFORMANCE
+        ========================== -->
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Monthly Sales Performance
+                    </h2>
+
+                    <p>
+
+                        Target achievement for
+
+                        <strong
+                            th:text="${selectedMonth}">
+
+                            2026-09
+
+                        </strong>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-container">
+
+
+                <!-- INFO -->
+
+                <div class="progress-info">
+
+                    <span>
+                        Target Achievement
+                    </span>
+
+                    <strong>
+
+                        <span
+                            th:text="${#numbers.formatDecimal(
+                                achievementPercentage,
+                                1,
+                                2
+                            )}">
+
+                            0.00
+
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+                <!-- PROGRESS BAR -->
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+
+                        th:style="'width:' +
+                        ${progressPercentage} +
+                        '%'">
+
+                    </div>
+
+                </div>
+
+
+                <!-- VALUES -->
+
+                <div class="progress-values">
+
+                    <span>
+
+                        Achieved:
+
+                        ₹<span
+                            th:text="${#numbers.formatDecimal(
+                                achievedAmount,
+                                1,
+                                2
+                            )}">
+
+                            0.00
+
+                        </span>
+
+                    </span>
+
+
+                    <span>
+
+                        Target:
+
+                        ₹<span
+                            th:text="${#numbers.formatDecimal(
+                                targetAmount,
+                                1,
+                                2
+                            )}">
+
+                            0.00
+
+                        </span>
+
+                    </span>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="report-status">
+
+                    <span
+                        th:if="${achievementPercentage >= 100}"
+                        class="status-active">
+
+                        🎉 Target Achieved
+
+                    </span>
+
+
+                    <span
+                        th:if="${achievementPercentage >= 75
+                                and achievementPercentage < 100}"
+                        class="status-active">
+
+                        🟢 Excellent Progress
+
+                    </span>
+
+
+                    <span
+                        th:if="${achievementPercentage >= 50
+                                and achievementPercentage < 75}"
+                        class="status-inactive">
+
+                        🟡 Needs Attention
+
+                    </span>
+
+
+                    <span
+                        th:if="${achievementPercentage < 50}"
+                        class="status-inactive">
+
+                        🔴 Low Performance
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             CLIENT PERFORMANCE
+        ========================== -->
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Monthly Client Performance
+                    </h2>
+
+                    <p>
+
+                        New client target achievement for
+
+                        <strong
+                            th:text="${selectedMonth}">
+
+                            2026-09
+
+                        </strong>
+
+                    </p>
+
+                </div>
+
+
+                <strong class="progress-percentage">
+
+                    <span
+                        th:text="${#numbers.formatDecimal(
+                            clientAchievementPercentage,
+                            1,
+                            2
+                        )}">
+
+                        0.00
+
+                    </span>%
+
+                </strong>
+
+            </div>
+
+
+            <div class="progress-container">
+
+
+                <!-- CLIENT INFO -->
+
+                <div class="progress-info">
+
+                    <span>
+                        Client Target Achievement
+                    </span>
+
+                    <strong>
+
+                        <span
+                            th:text="${#numbers.formatDecimal(
+                                clientAchievementPercentage,
+                                1,
+                                2
+                            )}">
+
+                            0.00
+
+                        </span>%
+
+                    </strong>
+
+                </div>
+
+
+                <!-- CLIENT PROGRESS BAR -->
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+
+                        th:style="'width:' +
+                        ${clientProgressPercentage} +
+                        '%'">
+
+                    </div>
+
+                </div>
+
+
+                <!-- CLIENT VALUES -->
+
+                <div class="progress-values">
+
+                    <span>
+
+                        Achieved:
+
+                        <strong
+                            th:text="${actualClients}">
+
+                            0
+
+                        </strong>
+
+                        Clients
+
+                    </span>
+
+
+                    <span>
+
+                        Target:
+
+                        <strong
+                            th:text="${clientTarget}">
+
+                            0
+
+                        </strong>
+
+                        Clients
+
+                    </span>
+
+                </div>
+
+
+                <!-- REMAINING -->
+
+                <div class="progress-values">
+
+                    <span>
+
+                        Remaining:
+
+                        <strong
+                            th:text="${remainingClients}">
+
+                            0
+
+                        </strong>
+
+                        Clients
+
+                    </span>
+
+                </div>
+
+
+                <!-- CLIENT STATUS -->
+
+                <div class="report-status">
+
+
+                    <span
+                        th:if="${clientTarget == 0}"
+                        class="status-inactive">
+
+                        ⚪ No Client Target Assigned
+
+                    </span>
+
+
+                    <span
+                        th:if="${clientTarget > 0
+                                and clientAchievementPercentage >= 100}"
+                        class="status-active">
+
+                        🎉 Client Target Achieved
+
+                    </span>
+
+
+                    <span
+                        th:if="${clientTarget > 0
+                                and clientAchievementPercentage >= 75
+                                and clientAchievementPercentage < 100}"
+                        class="status-active">
+
+                        🟢 Excellent Progress
+
+                    </span>
+
+
+                    <span
+                        th:if="${clientTarget > 0
+                                and clientAchievementPercentage >= 50
+                                and clientAchievementPercentage < 75}"
+                        class="status-inactive">
+
+                        🟡 Needs Attention
+
+                    </span>
+
+
+                    <span
+                        th:if="${clientTarget > 0
+                                and clientAchievementPercentage < 50}"
+                        class="status-inactive">
+
+                        🔴 Low Client Performance
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SALES DETAILS
+        ========================== -->
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Sales Details
+                    </h2>
+
+                    <p>
+                        Sales recorded during the selected month
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    <!-- SALES -->
+
+                    <tr
+                        th:each="sale : ${monthlySales}">
+
+
+                        <td
+                            th:text="${sale.saleDate}">
+
+                            2026-09-01
+
+                        </td>
+
+
+                        <td
+                            th:text="${sale.customerName}">
+
+                            ABC Ltd
+
+                        </td>
+
+
+                        <td
+                            th:text="${sale.productName}">
+
+                            GI Earthing
+
+                        </td>
+
+
+                        <td>
+
+                            ₹<span
+                                th:text="${#numbers.formatDecimal(
+                                    sale.totalAmount,
+                                    1,
+                                    2
+                                )}">
+
+                                0.00
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- NO SALES -->
+
+                    <tr
+                        th:if="${#lists.isEmpty(monthlySales)}">
+
+                        <td
+                            colspan="4"
+                            class="empty-message">
+
+                            No sales recorded for this month.
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

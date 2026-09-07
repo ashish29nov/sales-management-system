@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Sale</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =====================================
+         NAVBAR
+    ====================================== -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside class="sidebar">
+
+        <a href="/admin/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/admin/salespersons"
+           class="sidebar-link">
+
+            👥 Salespersons
+
+        </a>
+
+
+        <a href="/admin/targets"
+           class="sidebar-link">
+
+            🎯 Targets
+
+        </a>
+
+
+        <a href="/admin/sales"
+           class="sidebar-link active">
+
+            💰 Sales
+
+        </a>
+
+
+        <a href="/admin/reports"
+           class="sidebar-link">
+
+            📈 Reports
+
+        </a>
+
+    </aside>
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="dashboard-content">
+
+
+        <!-- =================================
+             PAGE HEADER
+        ================================== -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Edit Sale
+                </h1>
+
+                <p>
+                    Update sales transaction details
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             EDIT SALE FORM
+        ================================== -->
+
+        <div class="section-card">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Sale Details
+                </h2>
+
+            </div>
+
+
+            <form
+                method="post"
+                action="/admin/sales/update"
+                class="form-container">
+
+
+                <!-- SALE ID -->
+
+                <input
+                    type="hidden"
+                    name="id"
+                    th:value="${sale.id}">
+
+
+                <!-- SALESPERSON -->
+
+                <div class="form-group">
+
+                    <label for="salespersonId">
+
+                        Salesperson
+
+                    </label>
+
+
+                    <select
+                        id="salespersonId"
+                        name="salespersonId"
+                        required>
+
+                        <option
+                            value="">
+                            Select Salesperson
+                        </option>
+
+
+                        <option
+                            th:each="person : ${salespersons}"
+                            th:value="${person.id}"
+                            th:text="${person.name}"
+                            th:selected="${person.id == sale.salesperson.id}">
+
+                            Salesperson
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SALE DATE -->
+
+                <div class="form-group">
+
+                    <label for="saleDate">
+
+                        Sale Date
+
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="saleDate"
+                        name="saleDate"
+                        th:value="${sale.saleDate}"
+                        required>
+
+                </div>
+
+
+                <!-- CUSTOMER NAME -->
+
+                <div class="form-group">
+
+                    <label for="customerName">
+
+                        Customer Name
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        th:value="${sale.customerName}"
+                        placeholder="Enter customer name"
+                        required>
+
+                </div>
+
+
+                <!-- PRODUCT NAME -->
+
+                <div class="form-group">
+
+                    <label for="productName">
+
+                        Product Name
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="productName"
+                        name="productName"
+                        th:value="${sale.productName}"
+                        placeholder="Enter product name"
+                        required>
+
+                </div>
+
+
+                <!-- SALE AMOUNT -->
+
+                <div class="form-group">
+
+                    <label for="saleAmount">
+
+                        Sale Amount (₹)
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="saleAmount"
+                        name="saleAmount"
+                        th:value="${sale.saleAmount}"
+                        placeholder="Enter sale amount"
+                        min="0"
+                        step="0.01"
+                        required>
+
+                </div>
+
+
+                <!-- FORM ACTIONS -->
+
+                <div class="form-actions">
+
+
+                    <a
+                        href="/admin/sales"
+                        class="small-btn">
+
+                        ← Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        💾 Update Sale
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Excel Preview</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+    <style>
+
+        .preview-summary {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .preview-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .preview-box span {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .preview-box strong {
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .preview-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .preview-table th {
+            background: #f3f4f6;
+            font-size: 13px;
+        }
+
+        .preview-table td {
+            font-size: 13px;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .confirm-btn {
+            background: #16a34a;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+
+            .preview-summary {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <h2>Sales Management</h2>
+
+        <div class="user-info">
+
+            <span th:text="${salesperson.name}">
+                Salesperson
+            </span>
+
+            <a href="/sales/logout"
+               class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <a href="/sales/dashboard"
+           class="sidebar-link">
+            📊 Dashboard
+        </a>
+
+        <a href="/sales/my-sales"
+           class="sidebar-link active">
+            💰 My Sales
+        </a>
+        <a href="/sales/my-clients"
+           class="sidebar-link">
+
+            👥 My Clients
+
+        </a>
+
+        <a href="/sales/my-target"
+           class="sidebar-link">
+            🎯 My Target
+        </a>
+
+        <a href="/sales/my-report"
+           class="sidebar-link">
+            📈 My Report
+        </a>
+
+    </aside>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <main class="dashboard-content">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Excel Preview</h1>
+
+                <p>
+                    Please check the data before importing.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FILE NAME
+        ================================================== -->
+
+        <div class="section-card">
+
+            <h2>📄 Excel File</h2>
+
+            <p>
+
+                <strong>File:</strong>
+
+                <span th:text="${preview.fileName}">
+                    file.xlsx
+                </span>
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SUMMARY
+        ================================================== -->
+
+        <div class="preview-summary">
+
+            <div class="preview-box">
+
+                <span>Total Excel Rows</span>
+
+                <strong th:text="${preview.totalRows}">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="preview-box">
+
+                <span>Total Product Quantity</span>
+
+                <strong th:text="${preview.totalQuantity}">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="preview-box">
+
+                <span>Total Sales Amount</span>
+
+                <strong>
+                    ₹
+                    <span th:text="${preview.totalAmount}">
+                        0
+                    </span>
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PREVIEW TABLE
+        ================================================== -->
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Sales Data Preview</h2>
+
+                    <p>
+                        Data below will be imported after confirmation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="preview-table-wrapper">
+
+                <table class="preview-table">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>Excel Row</th>
+
+                        <th>Date</th>
+
+                        <th>Vch/Bill No</th>
+
+                        <th>Customer</th>
+
+                        <th>Product</th>
+
+                        <th>Material Centre</th>
+
+                        <th>Qty.</th>
+
+                        <th>Unit</th>
+
+                        <th>Price</th>
+
+                        <th>Amount</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    <tr th:each="row : ${preview.rows}">
+
+                        <td th:text="${row.rowNumber}">
+                            2
+                        </td>
+
+                        <td th:text="${row.saleDate}">
+                            2026-09-01
+                        </td>
+
+                        <td th:text="${row.invoiceNumber}">
+                            INV001
+                        </td>
+
+                        <td th:text="${row.customerName}">
+                            Customer
+                        </td>
+
+                        <td th:text="${row.productName}">
+                            Product
+                        </td>
+
+                        <td th:text="${row.materialCentre}">
+                            Centre
+                        </td>
+
+                        <td th:text="${row.quantity}">
+                            10
+                        </td>
+
+                        <td th:text="${row.unit}">
+                            Nos
+                        </td>
+
+                        <td th:text="${row.price}">
+                            100
+                        </td>
+
+                        <td>
+                            ₹
+                            <span th:text="${row.calculatedAmount}">
+                                1000
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIONS
+            ================================================== -->
+
+            <div class="preview-actions">
+
+                <!-- CONFIRM -->
+
+                <form method="post"
+                      action="/sales/sales/import-confirm">
+
+                    <button type="submit"
+                            class="action-btn confirm-btn"
+                            onclick="return confirm('Are you sure you want to import these sales?');">
+
+                        ✅ Confirm & Import
+
+                    </button>
+
+                </form>
+
+
+                <!-- CANCEL -->
+
+                <form method="get"
+                      action="/sales/sales/import">
+
+                    <button type="submit"
+                            class="action-btn cancel-btn">
+
+                        ← Cancel
+
+                    </button>
+
+                </form>
+
+
+                <a href="/sales/my-sales"
+                   class="action-btn">
+
+                    My Sales
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             IMPORTANT
+        ================================================== -->
+
+        <div class="section-card">
+
+            <h2>⚠ Important</h2>
+
+            <ul>
+
+                <li>
+                    Confirm karne ke baad data database mein save hoga.
+                </li>
+
+                <li>
+                    Same Vch/Bill No ki multiple rows
+                    ek hi Sale ke multiple products hongi.
+                </li>
+
+                <li>
+                    Amount Qty × Price se calculate hoga.
+                </li>
+
+                <li>
+                    Existing invoice hone par final import reject hoga.
+                </li>
+
+                <li>
+                    Material Centre preview mein dikhaya ja raha hai,
+                    lekin database mein currently save nahi hoga.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

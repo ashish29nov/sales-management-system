@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Salespersons</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <h2>Sales Management</h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+            Logout
+        </a>
+
+    </nav>
+
+
+    <!-- SIDEBAR -->
+
+    <!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <a href="/admin/dashboard"
+       class="sidebar-link">
+        📊 Dashboard
+    </a>
+
+    <a href="/admin/salespersons"
+       class="sidebar-link active">
+        👥 Salespersons
+    </a>
+
+    <a href="/admin/targets"
+       class="sidebar-link">
+        🎯 Targets
+    </a>
+
+    <a href="/admin/sales"
+       class="sidebar-link">
+        💰 Sales
+    </a>
+
+    <a href="/admin/reports"
+       class="sidebar-link">
+        📈 Reports
+    </a>
+
+</aside>
+
+
+    <!-- CONTENT -->
+
+    <main class="dashboard-content">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Salespersons</h1>
+
+                <p>
+                    Manage your sales team
+                </p>
+
+            </div>
+
+            <a href="/admin/salespersons/add"
+               class="primary-btn">
+
+                + Add Salesperson
+
+            </a>
+
+        </div>
+
+
+        <div class="section-card">
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    <tr th:each="user : ${salespersons}">
+
+                        <td th:text="${user.id}">
+                            1
+                        </td>
+
+                        <td th:text="${user.employeeId}">
+                            EMP1001
+                        </td>
+
+                        <td th:text="${user.name}">
+                            Rahul
+                        </td>
+
+                        <td th:text="${user.email}">
+                            rahul@example.com
+                        </td>
+
+                        <td th:text="${user.mobile}">
+                            9999999999
+                        </td>
+
+                        <td th:text="${user.city}">
+                            Delhi
+                        </td>
+
+                        <td>
+
+                            <span
+                                th:if="${user.active}"
+                                class="status-active">
+
+                                Active
+
+                            </span>
+
+                            <span
+                                th:unless="${user.active}"
+                                class="status-inactive">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                th:href="@{/admin/salespersons/toggle/{id}(id=${user.id})}"
+                                class="small-btn">
+
+                                Toggle
+
+                            </a>
+
+                            <a
+                                th:href="@{/admin/salespersons/delete/{id}(id=${user.id})}"
+                                class="delete-btn"
+                                onclick="return confirm('Delete this salesperson?')">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr th:if="${#lists.isEmpty(salespersons)}">
+
+                        <td colspan="8"
+                            class="empty-message">
+
+                            No salespersons found.
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

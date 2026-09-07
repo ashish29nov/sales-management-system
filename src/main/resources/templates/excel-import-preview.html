@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Excel Import Preview</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1300px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow:
+                    0 5px 25px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #0f766e;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns:
+                    repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow:
+                    0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .summary-card h4 {
+            color: #6b7280;
+            margin: 0 0 10px;
+        }
+
+        .summary-card h2 {
+            color: #0f766e;
+            margin: 0;
+        }
+
+        .invoice {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .invoice-header {
+            padding: 15px;
+            background: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .invoice-header strong {
+            color: #111827;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 11px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .total {
+            padding: 15px;
+            text-align: right;
+            font-weight: bold;
+            color: #0f766e;
+        }
+
+        .warning {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button,
+        .cancel-btn {
+            padding: 12px 22px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .confirm-btn {
+            background: #0f766e;
+            color: white;
+        }
+
+        .confirm-btn:hover {
+            background: #115e59;
+        }
+
+        .cancel-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Excel Import Preview</h1>
+
+        <p>
+            Salesperson:
+            <strong th:text="${salesperson.name}">
+            </strong>
+        </p>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <h4>Total Invoices</h4>
+
+            <h2 th:text="${preview.totalInvoices}">
+            </h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h4>Total Items</h4>
+
+            <h2 th:text="${preview.totalItems}">
+            </h2>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h4>Grand Total</h4>
+
+            <h2>
+                ₹
+                <span
+                        th:text="${preview.grandTotal}">
+                </span>
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- DUPLICATE WARNING -->
+
+    <div
+            class="warning"
+            th:if="${!duplicateInvoices.isEmpty()}">
+
+        <strong>
+            Duplicate invoice numbers found:
+        </strong>
+
+        <span
+                th:text="${#strings.listJoin(
+                    duplicateInvoices,
+                    ', '
+                )}">
+        </span>
+
+        <br><br>
+
+        These invoices will not be imported.
+        Please remove/change them before importing.
+
+    </div>
+
+    <!-- INVOICES -->
+
+    <div class="card">
+
+        <div
+                class="invoice"
+                th:each="sale : ${preview.sales}">
+
+            <div class="invoice-header">
+
+                <div>
+
+                    <strong>
+                        Invoice:
+                    </strong>
+
+                    <span
+                            th:text="${sale.invoiceNumber}">
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Date:
+                    </strong>
+
+                    <span
+                            th:text="${sale.saleDate}">
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Customer:
+                    </strong>
+
+                    <span
+                            th:text="${sale.customerName}">
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Qty
+                        </th>
+
+                        <th>
+                            Unit
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr
+                            th:each="item :
+                            ${sale.items}">
+
+                        <td
+                                th:text="${item.productName}">
+                        </td>
+
+                        <td
+                                th:text="${item.quantity}">
+                        </td>
+
+                        <td
+                                th:text="${item.unit}">
+                        </td>
+
+                        <td>
+                            ₹
+                            <span
+                                    th:text="${item.price}">
+                            </span>
+                        </td>
+
+                        <td>
+                            ₹
+                            <span
+                                    th:text="${item.amount}">
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="total">
+
+                Invoice Total:
+                ₹
+                <span
+                        th:text="${sale.totalAmount}">
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            <form
+                    th:if="${duplicateInvoices.isEmpty()}"
+                    th:action="@{/admin/excel-import/confirm}"
+                    method="post">
+
+                <button
+                        type="submit"
+                        class="confirm-btn"
+                        onclick="
+                        return confirm(
+                        'Are you sure you want to import these invoices?'
+                        );
+                        ">
+
+                    ✓ Confirm Import
+
+                </button>
+
+            </form>
+
+            <a
+                    href="/admin/excel-import"
+                    class="cancel-btn">
+
+                ← Cancel / Upload Again
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

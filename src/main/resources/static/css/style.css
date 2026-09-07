@@ -1,0 +1,1787 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f9;
+    color: #1f2937;
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f766e, #164e63);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 430px;
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 18px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.logo-box {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-box h1 {
+    font-size: 27px;
+    color: #0f766e;
+    margin-bottom: 8px;
+}
+
+.logo-box p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    outline: none;
+    font-size: 15px;
+}
+
+.form-control:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15,118,110,0.12);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 9px;
+    background: #0f766e;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #115e59;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #0f766e;
+    text-decoration: none;
+}
+
+/* =========================
+   HOME PAGE
+========================= */
+
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f7f9;
+}
+
+.home-container {
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+}
+
+.home-title {
+    font-size: 40px;
+    color: #0f766e;
+    margin-bottom: 10px;
+}
+
+.home-subtitle {
+    color: #6b7280;
+    margin-bottom: 40px;
+}
+
+.login-options {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.login-option {
+    background: white;
+    width: 300px;
+    padding: 35px 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.login-option h2 {
+    margin-bottom: 10px;
+}
+
+.login-option p {
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+.option-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #0f766e;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+    min-height: 100vh;
+    background: #f4f7f9;
+}
+
+.navbar {
+    height: 65px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.navbar h2 {
+    color: #0f766e;
+}
+
+.logout-btn {
+    background: #dc2626;
+    color: white;
+    padding: 9px 18px;
+    border-radius: 7px;
+    text-decoration: none;
+}
+
+.dashboard-content {
+    padding: 35px;
+}
+
+.dashboard-title {
+    margin-bottom: 25px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.stat-card h4 {
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.stat-card h2 {
+    font-size: 27px;
+    color: #0f766e;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .login-options {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-content {
+        padding: 20px;
+    }
+
+    .home-title {
+        font-size: 30px;
+    }
+}
+.login-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ecfdf5;
+    border-radius: 50%;
+
+    font-size: 30px;
+}
+
+.error-message {
+    background: #fef2f2;
+    color: #dc2626;
+
+    border: 1px solid #fecaca;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    font-size: 14px;
+}
+
+.success-message {
+    background: #ecfdf5;
+    color: #059669;
+
+    border: 1px solid #a7f3d0;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    font-size: 14px;
+}
+/* =========================
+   ADMIN DASHBOARD
+========================= */
+
+.dashboard {
+    min-height: 100vh;
+    background: #f4f7f9;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 65px;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+
+    z-index: 100;
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+
+    width: 240px;
+    height: calc(100vh - 70px);
+
+    background: #111827;
+
+    padding: 20px 12px;
+
+    box-sizing: border-box;
+
+    z-index: 9999;
+
+    overflow-y: auto;
+}
+
+
+.sidebar-link {
+    display: block;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 16px;
+
+    margin-bottom: 6px;
+
+    color: #d1d5db;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    position: relative;
+
+    z-index: 10000;
+}
+
+
+.sidebar-link:hover {
+    background: #1f2937;
+
+    color: #ffffff;
+}
+
+
+.sidebar-link.active {
+    background: #374151;
+
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+
+.dashboard-content {
+    margin-left: 240px;
+
+    padding: 100px 30px 30px;
+
+    width: calc(100% - 240px);
+
+    box-sizing: border-box;
+}
+
+.page-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.page-header p {
+    color: #6b7280;
+}
+
+
+/* STAT CARDS */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+}
+
+.stat-icon {
+    font-size: 28px;
+
+    margin-bottom: 15px;
+}
+
+.stat-card h4 {
+    color: #6b7280;
+
+    font-size: 14px;
+
+    margin-bottom: 10px;
+}
+
+.stat-card h2 {
+    color: #0f766e;
+
+    font-size: 28px;
+}
+
+
+/* SECTION CARD */
+
+.section-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+
+    margin-bottom: 25px;
+}
+
+.section-header {
+    margin-bottom: 20px;
+}
+
+
+/* QUICK ACTIONS */
+
+.quick-actions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+}
+
+.action-btn,
+.primary-btn {
+    display: inline-block;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    background: #0f766e;
+
+    color: white;
+
+    text-decoration: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.action-btn:hover,
+.primary-btn:hover {
+    background: #115e59;
+}
+
+
+/* TABLE */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th {
+    background: #f3f4f6;
+
+    text-align: left;
+
+    padding: 14px;
+
+    font-size: 13px;
+}
+
+td {
+    padding: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 14px;
+}
+
+tr:hover {
+    background: #f9fafb;
+}
+
+
+/* STATUS */
+
+.status-active,
+.status-inactive {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.status-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* BUTTONS */
+
+.small-btn {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    background: #e0f2fe;
+
+    color: #0369a1;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+}
+
+.delete-btn {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    background: #fee2e2;
+
+    color: #dc2626;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    margin-left: 5px;
+}
+
+
+/* FORM */
+
+.form-card {
+    max-width: 850px;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(15,118,110,0.12);
+}
+
+.form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.cancel-btn {
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    background: #e5e7eb;
+
+    color: #374151;
+
+    text-decoration: none;
+}
+
+.empty-message {
+    text-align: center;
+
+    padding: 30px;
+
+    color: #6b7280;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-link {
+        font-size: 0;
+        text-align: center;
+    }
+
+    .dashboard-content {
+        margin-left: 70px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-content {
+        padding: 90px 15px 30px;
+    }
+}
+
+/* =========================
+   SALESPERSON DASHBOARD
+========================= */
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info span {
+    font-weight: 600;
+    color: #374151;
+}
+
+
+.progress-container {
+    width: 100%;
+}
+
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+}
+
+
+.progress-bar {
+    width: 100%;
+    height: 18px;
+
+    background: #e5e7eb;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+
+.progress-fill {
+    height: 100%;
+
+    background: #0f766e;
+
+    border-radius: 20px;
+
+    transition: width 0.5s ease;
+}
+
+
+.progress-values {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 10px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+/* =========================================
+   REPORTS - SALES PERFORMANCE SECTION
+========================================= */
+
+.section-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 24px;
+    margin-top: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Report Header */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* Title */
+
+.section-header h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    color: #14213d;
+}
+
+
+/* Subtitle */
+
+.section-header p {
+    margin: 4px 0 0;
+    font-size: 18px;
+    color: #4b5563;
+}
+
+
+/* Month Filter */
+
+.section-header form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* Month Label */
+
+.section-header form label {
+    font-size: 17px;
+    font-weight: 600;
+    color: #14213d;
+}
+
+
+/* Month Input */
+
+.section-header form input[type="month"] {
+    height: 42px;
+    min-width: 165px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 16px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+
+/* Month Input Focus */
+
+.section-header form input[type="month"]:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+
+/* Selected Month Information */
+
+.section-card > div:nth-child(2) {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+
+    background: #f8fafc;
+
+    border-left: 4px solid #0f766e;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    color: #374151;
+}
+
+
+/* Report Month Text */
+
+.section-card > div:nth-child(2) strong {
+    color: #14213d;
+}
+
+
+/* =========================================
+   REPORT TABLE
+========================================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+.table-container thead {
+    background: #f3f4f6;
+}
+
+
+.table-container th {
+    padding: 15px 18px;
+
+    text-align: left;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    color: #111827;
+
+    white-space: nowrap;
+}
+
+
+.table-container td {
+    padding: 16px 18px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 15px;
+
+    color: #1f2937;
+
+    white-space: nowrap;
+}
+
+
+.table-container tbody tr:hover {
+    background: #f9fafb;
+}
+
+
+/* Salesperson Name */
+
+.table-container td strong {
+    color: #14213d;
+}
+
+
+/* Empty Message */
+
+.empty-message {
+    text-align: center !important;
+
+    padding: 30px !important;
+
+    color: #6b7280 !important;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .section-header form {
+        width: 100%;
+    }
+
+    .section-header form input[type="month"] {
+        width: 100%;
+    }
+
+}
+/* =========================================
+   ADMIN DASHBOARD
+========================================= */
+
+.dashboard-month {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 10px 15px;
+
+    background: #ffffff;
+
+    border-radius: 8px;
+
+    color: #475569;
+
+    font-size: 14px;
+}
+
+.dashboard-month strong {
+    color: #0f766e;
+}
+
+
+/* =========================================
+   DASHBOARD STAT CARDS
+========================================= */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 24px;
+
+    margin-bottom: 24px;
+}
+
+
+.stat-card {
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.09);
+}
+
+
+.stat-icon {
+    font-size: 28px;
+
+    margin-bottom: 12px;
+}
+
+
+.stat-card h4 {
+    margin: 0 0 8px;
+
+    font-size: 15px;
+
+    color: #64748b;
+}
+
+
+.stat-card h2 {
+    margin: 0;
+
+    font-size: 28px;
+
+    color: #0f766e;
+}
+
+
+/* =========================================
+   SECTION
+========================================= */
+
+.section-card {
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    margin-bottom: 24px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+.section-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+.section-header h2 {
+    margin: 0;
+
+    font-size: 24px;
+
+    color: #14213d;
+}
+
+
+.section-header p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .page-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .section-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}
+/* =========================================
+   DASHBOARD MONTH SELECTOR
+========================================= */
+
+.dashboard-month {
+    background: #ffffff;
+    padding: 8px 12px;
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+.dashboard-month form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.dashboard-month label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+}
+
+
+.dashboard-month input[type="month"] {
+    height: 40px;
+
+    padding: 0 10px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #1f2937;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+
+.dashboard-month input[type="month"]:focus {
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+
+@media (max-width: 700px) {
+
+    .dashboard-month {
+        width: 100%;
+    }
+
+    .dashboard-month form {
+        width: 100%;
+    }
+
+    .dashboard-month input[type="month"] {
+        flex: 1;
+    }
+
+}/* =========================================
+   SALESPERSON PROGRESS BAR
+========================================= */
+
+.progress-cell {
+    min-width: 180px;
+}
+
+
+.salesperson-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.salesperson-progress-bar {
+    flex: 1;
+
+    height: 10px;
+
+    background: #e5e7eb;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+
+.salesperson-progress-fill {
+    height: 100%;
+
+    background: #0f766e;
+
+    border-radius: 20px;
+
+    transition: width 0.6s ease;
+}
+
+
+.progress-text {
+    min-width: 52px;
+
+    font-size: 14px;
+
+    color: #14213d;
+
+    text-align: right;
+}
+/* =========================================
+   SALESPERSON DASHBOARD
+========================================= */
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+
+/* =========================================
+   MONTH SELECTOR
+========================================= */
+
+.dashboard-month {
+    background: #ffffff;
+
+    padding: 8px 12px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+.dashboard-month form {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.dashboard-month label {
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #334155;
+}
+
+
+.dashboard-month input[type="month"] {
+    height: 40px;
+
+    padding: 0 10px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #1f2937;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+
+.dashboard-month input[type="month"]:focus {
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+
+/* =========================================
+   TARGET PROGRESS
+========================================= */
+
+.salesperson-progress-section {
+    width: 100%;
+
+    margin-top: 10px;
+}
+
+
+.salesperson-progress-bar.large {
+    width: 100%;
+
+    height: 24px;
+
+    background: #e5e7eb;
+
+    border-radius: 50px;
+
+    overflow: hidden;
+}
+
+
+.salesperson-progress-fill {
+    height: 100%;
+
+    min-width: 0;
+
+    border-radius: 50px;
+
+    background: #0f766e;
+
+    transition:
+        width 0.7s ease;
+}
+
+
+.progress-percentage {
+    font-size: 26px;
+
+    color: #0f766e;
+}
+
+
+.progress-values {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 12px;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+
+.progress-values strong {
+    color: #14213d;
+}
+
+
+.progress-status {
+    margin-top: 15px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+
+.progress-success {
+    color: #15803d;
+}
+
+
+.progress-good {
+    color: #15803d;
+}
+
+
+.progress-warning {
+    color: #b45309;
+}
+
+
+.progress-danger {
+    color: #dc2626;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .page-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .dashboard-month {
+        width: 100%;
+    }
+
+
+    .dashboard-month form {
+        width: 100%;
+    }
+
+
+    .dashboard-month input[type="month"] {
+        flex: 1;
+    }
+
+
+    .progress-values {
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+}
+/* =========================================
+   TARGET ACTION BUTTONS
+========================================= */
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.target-form-card {
+    max-width: 700px;
+}
+
+
+.form-grid {
+    display: grid;
+    gap: 20px;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #e5e7eb;
+    color: #333;
+    font-weight: 600;
+}
+
+
+.secondary-btn:hover {
+    background: #d1d5db;
+}
+
+/* =========================================
+   PAGE HEADER ACTIONS
+========================================= */
+
+.page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================
+   MONTH FILTER
+========================================= */
+
+.month-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.month-filter label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+.month-filter input[type="month"] {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+.month-filter input[type="month"]:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.delete-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+/* =====================================================
+   EXCEL UPLOAD BOX
+===================================================== */
+
+.excel-upload-box {
+    margin-bottom: 25px;
+}
+
+.excel-upload-label {
+    display: block;
+    margin-bottom: 10px;
+
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+
+/* =====================================================
+   FILE INPUT WRAPPER
+===================================================== */
+
+.excel-file-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    max-width: 650px;
+
+    min-height: 48px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #f9fafb;
+
+    box-sizing: border-box;
+}
+
+
+/* Hide original file input */
+
+.excel-file-input {
+    display: none;
+}
+
+
+/* =====================================================
+   CHOOSE FILE BUTTON
+===================================================== */
+
+.excel-file-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 150px;
+    height: 38px;
+
+    padding: 0 16px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.excel-file-button:hover {
+    background: #1d4ed8;
+}
+
+
+/* =====================================================
+   SELECTED FILE NAME
+===================================================== */
+
+.selected-file-name {
+    flex: 1;
+
+    font-size: 14px;
+    color: #6b7280;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   HELP TEXT
+===================================================== */
+
+.excel-upload-help {
+    margin-top: 8px;
+    margin-bottom: 0;
+
+    font-size: 13px;
+    color: #6b7280;
+}
+
+
+/* =====================================================
+   PREVIEW BUTTON
+===================================================== */
+
+.preview-btn {
+    margin-right: 8px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .excel-file-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .excel-file-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .selected-file-name {
+        padding: 5px 3px;
+        text-align: center;
+    }
+}

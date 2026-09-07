@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Assign Target</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+
+    <nav class="navbar">
+
+        <h2>Sales Management</h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <a href="/admin/dashboard"
+           class="sidebar-link">
+            📊 Dashboard
+        </a>
+
+        <a href="/admin/salespersons"
+           class="sidebar-link">
+            👥 Salespersons
+        </a>
+
+        <a href="/admin/targets"
+           class="sidebar-link active">
+            🎯 Targets
+        </a>
+
+        <a href="/admin/sales"
+           class="sidebar-link">
+            💰 Sales
+        </a>
+
+        <a href="/admin/reports"
+           class="sidebar-link">
+            📈 Reports
+        </a>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Assign Target</h1>
+
+                <p>
+                    Assign monthly sales and client target
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-card">
+
+
+            <form
+                action="/admin/targets/save"
+                method="post">
+
+
+                <!-- SALESPERSON -->
+
+                <div class="form-group">
+
+                    <label>
+                        Select Salesperson
+                    </label>
+
+
+                    <select
+                        name="salespersonId"
+                        class="form-control"
+                        required>
+
+                        <option value="">
+                            Select Salesperson
+                        </option>
+
+
+                        <option
+                            th:each="salesperson : ${salespersons}"
+                            th:value="${salesperson.id}"
+                            th:text="${salesperson.employeeId + ' - ' + salesperson.name}">
+
+                            EMP1001 - Rahul
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- MONTH -->
+
+                <div class="form-group">
+
+                    <label>
+                        Target Month
+                    </label>
+
+
+                    <input
+                        type="month"
+                        name="targetMonth"
+                        class="form-control"
+                        required>
+
+                </div>
+
+
+                <!-- TARGET AMOUNT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Target Amount
+                    </label>
+
+
+                    <input
+                        type="number"
+                        name="targetAmount"
+                        class="form-control"
+                        placeholder="500000"
+                        min="1"
+                        step="0.01"
+                        required>
+
+                </div>
+
+
+                <!-- CLIENT TARGET -->
+
+                <div class="form-group">
+
+                    <label>
+                        Client Target
+                    </label>
+
+
+                    <input
+                        type="number"
+                        name="clientTarget"
+                        class="form-control"
+                        placeholder="10"
+                        min="0"
+                        step="1"
+                        required>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+
+                    <a
+                        href="/admin/targets"
+                        class="cancel-btn">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        Save Target
+
+                    </button>
+
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

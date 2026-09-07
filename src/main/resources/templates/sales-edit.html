@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Sale</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <div class="user-info">
+
+            <span th:text="${salesperson.name}">
+                Salesperson
+            </span>
+
+            <a href="/sales/logout"
+               class="logout-btn">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <a href="/sales/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+        <a href="/sales/my-sales"
+           class="sidebar-link active">
+
+            💰 My Sales
+
+        </a>
+        <a href="/sales/my-clients"
+           class="sidebar-link">
+
+            👥 My Clients
+
+        </a>
+
+        <a href="/sales/my-target"
+           class="sidebar-link">
+
+            🎯 My Target
+
+        </a>
+
+        <a href="/sales/my-report"
+           class="sidebar-link">
+
+            📈 My Report
+
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="dashboard-content">
+
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Edit Sale
+                </h1>
+
+                <p>
+                    Update your sales information
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM CARD -->
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <h2>
+                    Sale Details
+                </h2>
+
+            </div>
+
+
+            <form
+                th:action="@{/sales/sales/update/{id}(id=${sale.id})}"
+                method="post"
+                class="sales-form">
+
+
+                <!-- SALE DATE -->
+
+                <div class="form-group">
+
+                    <label for="saleDate">
+                        Sale Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="saleDate"
+                        name="saleDate"
+                        th:value="${sale.saleDate}"
+                        required>
+
+                </div>
+
+
+                <!-- CUSTOMER -->
+
+                <div class="form-group">
+
+                    <label for="customerName">
+                        Customer Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        th:value="${sale.customerName}"
+                        placeholder="Enter customer name"
+                        required>
+
+                </div>
+
+
+                <!-- PRODUCT -->
+
+                <div class="form-group">
+
+                    <label for="productName">
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        name="productName"
+                        th:value="${sale.productName}"
+                        placeholder="Enter product name"
+                        required>
+
+                </div>
+
+
+                <!-- AMOUNT -->
+
+                <div class="form-group">
+
+                    <label for="saleAmount">
+                        Sale Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="saleAmount"
+                        name="saleAmount"
+                        th:value="${sale.saleAmount}"
+                        step="0.01"
+                        min="0"
+                        placeholder="Enter sale amount"
+                        required>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="form-actions">
+
+                    <a href="/sales/sales"
+                       class="secondary-btn">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        💾 Update Sale
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

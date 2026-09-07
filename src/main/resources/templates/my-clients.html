@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Clients | Sales Management</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <a href="/sales/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/sales/my-sales"
+           class="sidebar-link">
+
+            💰 My Sales
+
+        </a>
+
+        <a href="/sales/my-clients"
+           class="sidebar-link">
+
+            👥 My Clients
+
+        </a>
+
+
+        <a href="/sales/my-target"
+           class="sidebar-link">
+
+            🎯 My Target
+
+        </a>
+
+
+        <a href="/sales/my-report"
+           class="sidebar-link">
+
+            📈 My Report
+
+        </a>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+
+    <main class="dashboard-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    My Clients
+                </h1>
+
+                <p>
+                    Manage your manually added clients
+                </p>
+
+            </div>
+
+
+            <div class="page-header-actions">
+
+                <a
+                        href="/sales/client/add"
+                        class="primary-btn">
+
+                    + Add New Client
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLIENT TABLE -->
+
+        <div class="section-card">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Client List
+                    </h2>
+
+                    <p>
+                        Clients added by you
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Client Name</th>
+
+                        <th>Company</th>
+
+                        <th>GST No.</th>
+
+                        <th>Mobile</th>
+
+                        <th>Email</th>
+
+                        <th>Date Added</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    <tr
+                            th:each="client, stat : ${clients}">
+
+
+                        <!-- NUMBER -->
+
+                        <td
+                                th:text="${stat.count}">
+
+                            1
+
+                        </td>
+
+
+                        <!-- CLIENT -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${client.clientName}">
+
+                                Client Name
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- COMPANY -->
+
+                        <td
+                                th:text="${client.companyName != null && !client.companyName.isBlank()
+                                    ? client.companyName
+                                    : '-'}">
+
+                            Company
+
+                        </td>
+
+                        <!-- GST NUMBER -->
+
+<td
+        th:text="${client.gstNo != null && !client.gstNo.isBlank()
+                    ? client.gstNo
+                    : '-'}">
+
+    -
+
+</td>
+
+
+                        <!-- MOBILE -->
+
+                        <td
+                                th:text="${client.mobile != null && !client.mobile.isBlank()
+                                    ? client.mobile
+                                    : '-'}">
+
+                            9876543210
+
+                        </td>
+
+
+                        <!-- EMAIL -->
+
+                        <td
+                                th:text="${client.email != null && !client.email.isBlank()
+                                    ? client.email
+                                    : '-'}">
+
+                            example@email.com
+
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td
+                                th:text="${client.createdDate}">
+
+                            2026-09-03
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            <span
+                                    th:text="${client.status}">
+
+                                ACTIVE
+
+                            </span>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    <!-- EMPTY -->
+
+                    <tr
+                            th:if="${#lists.isEmpty(clients)}">
+
+                        <td
+                                colspan="8"
+                                class="empty-message">
+
+                            No clients added yet.
+
+                            <br>
+
+                            <a
+                                    href="/sales/client/add">
+
+                                + Add New Client
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

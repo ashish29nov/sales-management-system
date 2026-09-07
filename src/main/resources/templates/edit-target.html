@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Target</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <a href="/admin/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/admin/salespersons"
+           class="sidebar-link">
+
+            👥 Salespersons
+
+        </a>
+
+
+        <a href="/admin/targets"
+           class="sidebar-link active">
+
+            🎯 Targets
+
+        </a>
+
+
+        <a href="/admin/sales"
+           class="sidebar-link">
+
+            💰 Sales
+
+        </a>
+
+
+        <a href="/admin/reports"
+           class="sidebar-link">
+
+            📈 Reports
+
+        </a>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+
+    <main class="dashboard-content">
+
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Edit Target
+                </h1>
+
+                <p>
+                    Update salesperson monthly target
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div class="section-card target-form-card">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Target Details
+                </h2>
+
+            </div>
+
+
+            <form
+                th:action="@{/admin/targets/save}"
+                method="post"
+                class="form-grid">
+
+
+                <!-- TARGET ID -->
+
+                <input
+                    type="hidden"
+                    name="targetId"
+                    th:value="${target.id}">
+
+
+                <!-- SALESPERSON -->
+
+                <div class="form-group">
+
+                    <label for="salespersonId">
+
+                        Salesperson
+
+                    </label>
+
+
+                    <select
+                        id="salespersonId"
+                        name="salespersonId"
+                        required>
+
+
+                        <option
+                            th:each="salesperson : ${salespersons}"
+                            th:value="${salesperson.id}"
+                            th:text="${salesperson.name + ' (' + salesperson.employeeId + ')'}"
+                            th:selected="${salesperson.id == target.salesperson.id}">
+
+                            Rahul Kumar (EMP1001)
+
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+                <!-- MONTH -->
+
+                <div class="form-group">
+
+                    <label for="targetMonth">
+
+                        Target Month
+
+                    </label>
+
+
+                    <input
+                        type="month"
+                        id="targetMonth"
+                        name="targetMonth"
+                        th:value="${target.targetMonth}"
+                        required>
+
+                </div>
+
+
+                <!-- AMOUNT -->
+
+                <div class="form-group">
+
+                    <label for="targetAmount">
+
+                        Target Amount
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="targetAmount"
+                        name="targetAmount"
+                        step="0.01"
+                        min="0"
+                        th:value="${target.targetAmount}"
+                        placeholder="Enter target amount"
+                        required>
+
+                </div>
+
+
+                <!-- CLIENT TARGET -->
+
+                <div class="form-group">
+
+                    <label for="clientTarget">
+
+                        Client Target
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="clientTarget"
+                        name="clientTarget"
+                        step="1"
+                        min="0"
+                        th:value="${target.clientTarget}"
+                        placeholder="Enter client target"
+                        required>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="form-actions">
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        💾 Update Target
+
+                    </button>
+
+
+                    <a
+                        href="/admin/targets"
+                        class="secondary-btn">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

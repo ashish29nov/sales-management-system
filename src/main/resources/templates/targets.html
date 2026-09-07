@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Targets | Sales Management</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =====================================
+         NAVBAR
+    ====================================== -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside class="sidebar">
+
+        <a href="/admin/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/admin/salespersons"
+           class="sidebar-link">
+
+            👥 Salespersons
+
+        </a>
+
+
+        <a href="/admin/targets"
+           class="sidebar-link active">
+
+            🎯 Targets
+
+        </a>
+
+
+        <a href="/admin/sales"
+           class="sidebar-link">
+
+            💰 Sales
+
+        </a>
+
+
+        <a href="/admin/reports"
+           class="sidebar-link">
+
+            📈 Reports
+
+        </a>
+
+    </aside>
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="dashboard-content">
+
+
+        <!-- =====================================
+             PAGE HEADER
+        ====================================== -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Sales Targets
+                </h1>
+
+                <p>
+                    Manage monthly targets for salespersons
+                </p>
+
+            </div>
+
+
+            <!-- RIGHT SIDE ACTIONS -->
+
+            <div class="page-header-actions">
+
+
+                <!-- =====================================
+                     MONTH FILTER
+                ====================================== -->
+
+                <form
+                        method="get"
+                        action="/admin/targets"
+                        class="month-filter">
+
+                    <label for="targetMonth">
+
+                        📅 Month:
+
+                    </label>
+
+
+                    <input
+                            type="month"
+                            id="targetMonth"
+                            name="month"
+                            th:value="${selectedMonth}"
+                            onchange="this.form.submit()">
+
+                </form>
+
+
+                <!-- =====================================
+                     ADD TARGET
+                ====================================== -->
+
+                <a href="/admin/targets/add"
+                   class="primary-btn">
+
+                    + Assign Target
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             TARGET TABLE
+        ====================================== -->
+
+        <div class="section-card">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Assigned Targets
+                    </h2>
+
+                    <p>
+
+                        Targets for
+
+                        <strong
+                                th:text="${selectedMonth}">
+
+                            2026-09
+
+                        </strong>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 TABLE
+            ====================================== -->
+
+            <div class="table-container">
+
+                <table>
+
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Salesperson
+                        </th>
+
+                        <th>
+                            Employee ID
+                        </th>
+
+                        <th>
+                            Target Month
+                        </th>
+
+                        <th>
+                            Target Amount
+                        </th>
+
+                        
+<th>
+    Client Target
+</th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    <!-- =====================================
+                         TARGET ROWS
+                    ====================================== -->
+
+                    <tr
+                            th:each="target, stat : ${targets}">
+
+
+                        <!-- NUMBER -->
+
+                        <td
+                                th:text="${stat.count}">
+
+                            1
+
+                        </td>
+
+
+                        <!-- SALESPERSON -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${target.salesperson.name}">
+
+                                Salesperson
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- EMPLOYEE ID -->
+
+                        <td
+                                th:text="${target.salesperson.employeeId}">
+
+                            EMP1001
+
+                        </td>
+
+
+                        <!-- TARGET MONTH -->
+
+                        <td>
+
+                            <span
+                                    th:text="${target.targetMonth}">
+
+                                2026-09
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- TARGET AMOUNT -->
+
+                        <td>
+
+                            <strong>
+
+                                ₹<span
+                                    th:text="${#numbers.formatDecimal(
+                                        target.targetAmount,
+                                        1,
+                                        2
+                                    )}">
+
+                                    0.00
+
+                                </span>
+
+                            </strong>
+
+                        </td>
+
+                        <!-- CLIENT TARGET -->
+
+<td>
+
+    <strong
+            th:text="${target.clientTarget}">
+
+        0
+
+    </strong>
+
+    <span>
+        Clients
+    </span>
+
+</td>
+
+
+                        <!-- =====================================
+                             ACTION
+                        ====================================== -->
+
+                        <td class="action-buttons">
+
+
+                            <!-- EDIT -->
+
+                            <a
+                                    th:href="@{/admin/targets/edit/{id}(id=${target.id})}"
+                                    class="small-btn">
+
+                                ✏️ Edit
+
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <a
+                                    th:href="@{/admin/targets/delete/{id}(id=${target.id})}"
+                                    class="delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete this target?')">
+
+                                🗑️ Delete
+
+                            </a>
+
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =====================================
+                         NO TARGET DATA
+                    ====================================== -->
+
+                    <tr
+                            th:if="${#lists.isEmpty(targets)}">
+
+                        <td
+                                colspan="7"
+                                class="empty-message">
+
+                            No targets assigned for
+                            <strong th:text="${selectedMonth}">
+                                this month
+                            </strong>.
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

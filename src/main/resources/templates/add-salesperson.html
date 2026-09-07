@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Salesperson</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <nav class="navbar">
+
+        <h2>Sales Management</h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <main class="dashboard-content">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Add Salesperson</h1>
+
+                <p>
+                    Create a new salesperson account
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <form
+                action="/admin/salespersons/save"
+                method="post"
+                th:object="${user}">
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Employee ID
+                        </label>
+
+                        <input
+                            type="text"
+                            th:field="*{employeeId}"
+                            class="form-control"
+                            placeholder="EMP1002"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            th:field="*{name}"
+                            class="form-control"
+                            placeholder="Enter full name"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            th:field="*{email}"
+                            class="form-control"
+                            placeholder="salesperson@example.com"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Mobile
+                        </label>
+
+                        <input
+                            type="tel"
+                            th:field="*{mobile}"
+                            class="form-control"
+                            placeholder="9999999999"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            City
+                        </label>
+
+                        <input
+                            type="text"
+                            th:field="*{city}"
+                            class="form-control"
+                            placeholder="Delhi"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            th:field="*{password}"
+                            class="form-control"
+                            placeholder="Create password"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <a
+                        href="/admin/salespersons"
+                        class="cancel-btn">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        Create Salesperson
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

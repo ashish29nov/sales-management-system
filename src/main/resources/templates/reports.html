@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Reports</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        /* =========================
+           REPORT TABLE
+        ========================= */
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 12px 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .report-table th {
+            white-space: nowrap;
+        }
+
+        .report-table td {
+            white-space: nowrap;
+        }
+
+        .sales-group {
+            background: #eff6ff;
+            text-align: center !important;
+        }
+
+        .client-group {
+            background: #f0fdf4;
+            text-align: center !important;
+        }
+
+        .sales-header {
+            background: #f8fafc;
+        }
+
+        .client-header {
+            background: #f8fafc;
+        }
+
+        .percentage-cell {
+            font-weight: 700;
+        }
+
+        .sales-percentage {
+            color: #2563eb;
+        }
+
+        .client-percentage {
+            color: #16a34a;
+        }
+
+        .report-status {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-achieved {
+            color: #15803d;
+        }
+
+        .status-track {
+            color: #2563eb;
+        }
+
+        .status-attention {
+            color: #ca8a04;
+        }
+
+        .status-low {
+            color: #dc2626;
+        }
+
+        .client-summary {
+            font-size: 13px;
+            color: #475569;
+        }
+
+
+        /* =========================
+           PRINT BUTTON
+        ========================= */
+
+        .print-report-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .print-report-btn:hover {
+            opacity: 0.9;
+        }
+
+
+        /* =========================
+           PRINT ONLY
+        ========================= */
+
+        .print-only {
+            display: none;
+        }
+
+
+        /* =========================
+           CHART SECTION
+        ========================= */
+
+        .chart-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .chart-header {
+            margin-bottom: 15px;
+        }
+
+        .chart-header h2 {
+            margin: 0 0 5px 0;
+        }
+
+        .chart-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 420px;
+        }
+
+        .chart-empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1200px) {
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .report-table {
+                min-width: 1250px;
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .chart-section {
+                padding: 15px;
+            }
+
+            .chart-container {
+                height: 350px;
+            }
+
+        }
+
+
+        /* =========================
+           PRINT CSS
+        ========================= */
+
+        @media print {
+
+            .navbar,
+            .sidebar {
+                display: none !important;
+            }
+
+            .dashboard {
+                display: block !important;
+                min-height: auto !important;
+            }
+
+            .dashboard-content {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+
+            .section-card {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+
+            /* PRINT HEADER */
+
+            .print-header {
+                text-align: center;
+                margin-bottom: 25px;
+            }
+
+            .print-header h1 {
+                font-size: 24px;
+                margin: 0 0 8px 0;
+            }
+
+            .print-header h3 {
+                font-size: 16px;
+                margin: 0;
+                font-weight: normal;
+            }
+
+
+            /* PRINT CHART */
+
+            .chart-section {
+                border: 1px solid #000 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 20px !important;
+            }
+
+            .chart-container {
+                height: 350px !important;
+            }
+
+
+            /* PRINT TABLE */
+
+            .table-container {
+                overflow: visible !important;
+                width: 100% !important;
+            }
+
+            .report-table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+
+            .report-table th,
+            .report-table td {
+                border: 1px solid #000 !important;
+                padding: 7px 6px !important;
+                font-size: 10px !important;
+                color: #000 !important;
+            }
+
+            .report-table th {
+                font-weight: bold !important;
+                background: #eeeeee !important;
+            }
+
+            .sales-group,
+            .client-group {
+                background: #eeeeee !important;
+            }
+
+
+            /* STATUS PRINT */
+
+            .status-achieved,
+            .status-track,
+            .status-attention,
+            .status-low {
+                color: #000 !important;
+            }
+
+
+            /* PRINT MONTH */
+
+            .report-month-print {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 14px;
+            }
+
+
+            /* PAGE */
+
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+
+            tr {
+                page-break-inside: avoid;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <a href="/admin/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/admin/salespersons"
+           class="sidebar-link">
+
+            👥 Salespersons
+
+        </a>
+
+
+        <a href="/admin/targets"
+           class="sidebar-link">
+
+            🎯 Targets
+
+        </a>
+
+
+        <a href="/admin/sales"
+           class="sidebar-link">
+
+            💰 Sales
+
+        </a>
+
+
+        <a href="/admin/reports"
+           class="sidebar-link active">
+
+            📈 Reports
+
+        </a>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="dashboard-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header no-print">
+
+            <div>
+
+                <h1>
+                    Sales Reports
+                </h1>
+
+                <p>
+                    Sales and client target performance overview
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             REPORT CARD
+        ========================= -->
+
+        <div class="section-card">
+
+
+            <!-- PRINT HEADER -->
+
+            <div class="print-only print-header">
+
+                <h1>
+                    Sales & Client Performance Report
+                </h1>
+
+                <h3>
+                    Sales Management System
+                </h3>
+
+            </div>
+
+
+            <!-- =========================
+                 SECTION HEADER
+            ========================= -->
+
+            <div class="section-header no-print">
+
+                <div>
+
+                    <h2>
+                        Sales & Client Performance
+                    </h2>
+
+                    <p>
+                        Compare monthly sales and client performance
+                    </p>
+
+                </div>
+
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:10px;
+                ">
+
+
+                    <!-- MONTH FILTER -->
+
+                    <form method="get"
+                          action="/admin/reports"
+                          style="
+                            display:flex;
+                            align-items:center;
+                            gap:10px;
+                          ">
+
+                        <label for="month">
+
+                            <strong>
+                                Month:
+                            </strong>
+
+                        </label>
+
+
+                        <input
+                                type="month"
+                                id="month"
+                                name="month"
+                                th:value="${selectedMonth}"
+                                required
+                                onchange="this.form.submit()">
+
+                    </form>
+
+
+                    <!-- PRINT BUTTON -->
+
+                    <button
+                            type="button"
+                            class="print-report-btn"
+                            onclick="printAllReports()">
+
+                        🖨 Print All Reports
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 REPORT MONTH
+            ========================= -->
+
+            <div class="no-print"
+                 style="margin-bottom:20px;">
+
+                <strong>
+                    Report Month:
+                </strong>
+
+                <span th:text="${selectedMonth}">
+                    2026-08
+                </span>
+
+            </div>
+
+
+            <div class="print-only report-month-print">
+
+                <strong>
+                    Report Month:
+                </strong>
+
+                <span th:text="${selectedMonth}">
+                    2026-08
+                </span>
+
+            </div>
+
+
+            <!-- =====================================================
+                 CHART 1
+                 SALES TARGET VS ACHIEVED
+            ====================================================== -->
+
+            <div class="chart-section">
+
+
+                <div class="chart-header">
+
+                    <h2>
+                        💰 Sales Target vs Achieved
+                    </h2>
+
+                    <p>
+                        Salespersons ordered by achieved amount
+                        from low to high
+                    </p>
+
+                </div>
+
+
+                <!-- CHART -->
+
+                <div class="chart-container"
+                     th:if="${not #lists.isEmpty(reports)}">
+
+                    <canvas id="salesTargetChart"></canvas>
+
+                </div>
+
+
+                <!-- EMPTY -->
+
+                <div class="chart-empty"
+                     th:if="${#lists.isEmpty(reports)}">
+
+                    No sales data available for
+
+                    <strong th:text="${selectedMonth}">
+                        selected month
+                    </strong>.
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 CHART 2
+                 CLIENT TARGET VS NEW CLIENTS
+            ====================================================== -->
+
+            <div class="chart-section">
+
+
+                <div class="chart-header">
+
+                    <h2>
+                        👥 Client Target vs Achieved
+                    </h2>
+
+                    <p>
+                        Compare client target and new clients
+                        for each salesperson
+                    </p>
+
+                </div>
+
+
+                <!-- CLIENT CHART -->
+
+                <div class="chart-container"
+                     th:if="${not #lists.isEmpty(reports)}">
+
+                    <canvas id="clientTargetChart"></canvas>
+
+                </div>
+
+
+                <!-- EMPTY -->
+
+                <div class="chart-empty"
+                     th:if="${#lists.isEmpty(reports)}">
+
+                    No client data available for
+
+                    <strong th:text="${selectedMonth}">
+                        selected month
+                    </strong>.
+
+                </div>
+
+            </div>
+
+            <br><br><br>
+
+
+            <!-- =====================================================
+                 REPORT TABLE
+            ====================================================== -->
+
+            <div class="table-container">
+
+                <table class="report-table">
+
+
+                    <!-- TABLE HEADER -->
+
+                    <thead>
+
+                    <tr>
+
+                        <th rowspan="2">
+                            Salesperson
+                        </th>
+
+
+                        <!-- SALES GROUP -->
+
+                        <th colspan="5"
+                            class="sales-group">
+
+                            💰 Sales Performance
+
+                        </th>
+
+
+                        <!-- CLIENT GROUP -->
+
+                        <th colspan="4"
+                            class="client-group">
+
+                            👥 Client Performance
+
+                        </th>
+
+
+                        <th rowspan="2">
+                            Status
+                        </th>
+
+                    </tr>
+
+
+                    <tr>
+
+
+                        <!-- SALES -->
+
+                        <th class="sales-header">
+                            Target
+                        </th>
+
+
+                        <th class="sales-header">
+                            Achieved
+                        </th>
+
+
+                        <th class="sales-header">
+                            Remaining
+                        </th>
+
+
+                        <th class="sales-header">
+                            Product Qty
+                        </th>
+
+
+                        <th class="sales-header">
+                            Achievement %
+                        </th>
+
+
+                        <!-- CLIENT -->
+
+                        <th class="client-header">
+                            Client Target
+                        </th>
+
+
+                        <th class="client-header">
+                            New Clients
+                        </th>
+
+
+                        <th class="client-header">
+                            Remaining
+                        </th>
+
+
+                        <th class="client-header">
+                            Achievement %
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <!-- =========================
+                         TABLE BODY
+                    ========================= -->
+
+                    <tbody>
+
+
+                    <!-- REPORT ROW -->
+
+                    <tr th:each="report : ${reports}">
+
+
+                        <!-- SALESPERSON -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${report.salesperson.name}">
+
+                                Salesperson Name
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- =========================
+                             SALES TARGET
+                        ========================= -->
+
+                        <td>
+
+                            ₹<span
+                                th:text="${#numbers.formatDecimal(
+                                    report.target,
+                                    1,
+                                    2
+                                )}">
+
+                                0.00
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =========================
+                             ACHIEVED
+                        ========================= -->
+
+                        <td>
+
+                            ₹<span
+                                th:text="${#numbers.formatDecimal(
+                                    report.achieved,
+                                    1,
+                                    2
+                                )}">
+
+                                0.00
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =========================
+                             REMAINING
+                        ========================= -->
+
+                        <td>
+
+                            ₹<span
+                                th:text="${#numbers.formatDecimal(
+                                    report.remaining,
+                                    1,
+                                    2
+                                )}">
+
+                                0.00
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =========================
+                             PRODUCT QUANTITY
+                        ========================= -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${#numbers.formatDecimal(
+                                        report.totalProductQuantity,
+                                        1,
+                                        3
+                                    )}">
+
+                                0
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- =========================
+                             SALES ACHIEVEMENT %
+                        ========================= -->
+
+                        <td class="percentage-cell sales-percentage">
+
+                            <span
+                                    th:text="${#numbers.formatDecimal(
+                                        report.achievementPercentage,
+                                        1,
+                                        2
+                                    ) + '%'}">
+
+                                0%
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =========================
+                             CLIENT TARGET
+                        ========================= -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${report.clientTarget}">
+
+                                0
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- =========================
+                             NEW CLIENTS
+                        ========================= -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${report.actualClients}">
+
+                                0
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- =========================
+                             REMAINING CLIENTS
+                        ========================= -->
+
+                        <td>
+
+                            <strong
+                                    th:text="${report.remainingClients}">
+
+                                0
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- =========================
+                             CLIENT ACHIEVEMENT %
+                        ========================= -->
+
+                        <td class="percentage-cell client-percentage">
+
+                            <span
+                                    th:text="${#numbers.formatDecimal(
+                                        report.clientAchievementPercentage,
+                                        1,
+                                        2
+                                    ) + '%'}">
+
+                                0%
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =========================
+                             STATUS
+                        ========================= -->
+
+                        <td class="report-status">
+
+
+                            <!-- SALES ACHIEVED -->
+
+                            <span
+                                    th:if="${report.achievementPercentage >= 100}"
+                                    class="status-achieved">
+
+                                🎉 Sales Achieved
+
+                            </span>
+
+
+                            <!-- SALES ON TRACK -->
+
+                            <span
+                                    th:if="${report.achievementPercentage >= 75
+                                           and report.achievementPercentage < 100}"
+                                    class="status-track">
+
+                                🟢 Sales On Track
+
+                            </span>
+
+
+                            <!-- SALES ATTENTION -->
+
+                            <span
+                                    th:if="${report.achievementPercentage >= 50
+                                           and report.achievementPercentage < 75}"
+                                    class="status-attention">
+
+                                🟡 Sales Attention
+
+                            </span>
+
+
+                            <!-- SALES LOW -->
+
+                            <span
+                                    th:if="${report.achievementPercentage < 50}"
+                                    class="status-low">
+
+                                🔴 Sales Low
+
+                            </span>
+
+
+                            <br>
+
+
+                            <!-- =========================
+                                 CLIENT STATUS
+                            ========================= -->
+
+
+                            <!-- CLIENT ACHIEVED -->
+
+                            <span
+                                    th:if="${report.clientTarget > 0
+                                           and report.clientAchievementPercentage >= 100}"
+                                    class="status-achieved">
+
+                                👥 Clients Achieved
+
+                            </span>
+
+
+                            <!-- CLIENT ON TRACK -->
+
+                            <span
+                                    th:if="${report.clientTarget > 0
+                                           and report.clientAchievementPercentage >= 75
+                                           and report.clientAchievementPercentage < 100}"
+                                    class="status-track">
+
+                                👥 Clients On Track
+
+                            </span>
+
+
+                            <!-- CLIENT ATTENTION -->
+
+                            <span
+                                    th:if="${report.clientTarget > 0
+                                           and report.clientAchievementPercentage >= 50
+                                           and report.clientAchievementPercentage < 75}"
+                                    class="status-attention">
+
+                                👥 Clients Attention
+
+                            </span>
+
+
+                            <!-- CLIENT LOW -->
+
+                            <span
+                                    th:if="${report.clientTarget > 0
+                                           and report.clientAchievementPercentage < 50}"
+                                    class="status-low">
+
+                                👥 Clients Low
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =========================
+                         EMPTY REPORT
+                    ========================= -->
+
+                    <tr th:if="${#lists.isEmpty(reports)}">
+
+                        <td
+                                colspan="11"
+                                class="empty-message">
+
+                            No sales report available for
+
+                            <span th:text="${selectedMonth}">
+                                selected month
+                            </span>.
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ============================================================
+     CHART JAVASCRIPT
+============================================================= -->
+
+<script th:inline="javascript">
+
+
+    /* =========================================================
+       SALESPERSON NAMES
+       Controller already sorts reports:
+       LOW → HIGH based on achieved amount
+    ========================================================= */
+
+    const salespersonNames = [
+
+        /*[# th:each="report : ${reports}"]*/
+
+        /*[[${report.salesperson.name}]]*/ '',
+
+        /*[/]*/
+
+    ];
+
+
+    /* =========================================================
+       SALES TARGET
+    ========================================================= */
+
+    const targetAmounts = [
+
+        /*[# th:each="report : ${reports}"]*/
+
+        /*[[${report.target}]]*/ 0,
+
+        /*[/]*/
+
+    ].map(Number);
+
+
+    /* =========================================================
+       SALES ACHIEVED
+    ========================================================= */
+
+    const achievedAmounts = [
+
+        /*[# th:each="report : ${reports}"]*/
+
+        /*[[${report.achieved}]]*/ 0,
+
+        /*[/]*/
+
+    ].map(Number);
+
+
+    /* =========================================================
+       CLIENT TARGET
+    ========================================================= */
+
+    const clientTargetAmounts = [
+
+        /*[# th:each="report : ${reports}"]*/
+
+        /*[[${report.clientTarget}]]*/ 0,
+
+        /*[/]*/
+
+    ].map(Number);
+
+
+    /* =========================================================
+       ACTUAL / NEW CLIENTS
+    ========================================================= */
+
+    const actualClientAmounts = [
+
+        /*[# th:each="report : ${reports}"]*/
+
+        /*[[${report.actualClients}]]*/ 0,
+
+        /*[/]*/
+
+    ].map(Number);
+
+
+    /* =========================================================
+       SALES CHART
+    ========================================================= */
+
+    const salesChartCanvas =
+        document.getElementById("salesTargetChart");
+
+
+    if (
+        salesChartCanvas &&
+        salespersonNames.length > 0
+    ) {
+
+
+        new Chart(
+
+            salesChartCanvas.getContext("2d"),
+
+            {
+
+                type: "bar",
+
+
+                data: {
+
+                    labels: salespersonNames,
+
+
+                    datasets: [
+
+                        {
+
+                            label: "Total Target",
+
+                            data: targetAmounts,
+
+                            borderWidth: 1
+
+                        },
+
+
+                        {
+
+                            label: "Achieved Amount",
+
+                            data: achievedAmounts,
+
+                            borderWidth: 1
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+
+                    interaction: {
+
+                        mode: "index",
+
+                        intersect: false
+
+                    },
+
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "top"
+
+                        },
+
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    return context.dataset.label
+                                        + ": ₹"
+                                        + Number(context.raw)
+                                            .toLocaleString("en-IN");
+
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        x: {
+
+                            title: {
+
+                                display: true,
+
+                                text: "Salesperson"
+
+                            },
+
+
+                            ticks: {
+
+                                autoSkip: false,
+
+                                maxRotation: 45,
+
+                                minRotation: 0
+
+                            }
+
+                        },
+
+
+                        y: {
+
+                            beginAtZero: true,
+
+
+                            title: {
+
+                                display: true,
+
+                                text: "Amount (₹)"
+
+                            },
+
+
+                            ticks: {
+
+                                callback: function(value) {
+
+                                    return "₹"
+                                        + Number(value)
+                                            .toLocaleString("en-IN");
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+    }
+
+
+    /* =========================================================
+       CLIENT CHART
+    ========================================================= */
+
+    const clientChartCanvas =
+        document.getElementById("clientTargetChart");
+
+
+    if (
+        clientChartCanvas &&
+        salespersonNames.length > 0
+    ) {
+
+
+        new Chart(
+
+            clientChartCanvas.getContext("2d"),
+
+            {
+
+                type: "bar",
+
+
+                data: {
+
+                    labels: salespersonNames,
+
+
+                    datasets: [
+
+                        {
+
+                            label: "Client Target",
+
+                            data: clientTargetAmounts,
+
+                            borderWidth: 1
+
+                        },
+
+
+                        {
+
+                            label: "New Clients",
+
+                            data: actualClientAmounts,
+
+                            borderWidth: 1
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+
+                    interaction: {
+
+                        mode: "index",
+
+                        intersect: false
+
+                    },
+
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "top"
+
+                        },
+
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    return context.dataset.label
+                                        + ": "
+                                        + Number(context.raw)
+                                            .toLocaleString("en-IN");
+
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        x: {
+
+                            title: {
+
+                                display: true,
+
+                                text: "Salesperson"
+
+                            },
+
+
+                            ticks: {
+
+                                autoSkip: false,
+
+                                maxRotation: 45,
+
+                                minRotation: 0
+
+                            }
+
+                        },
+
+
+                        y: {
+
+                            beginAtZero: true,
+
+
+                            title: {
+
+                                display: true,
+
+                                text: "Clients"
+
+                            },
+
+
+                            ticks: {
+
+                                callback: function(value) {
+
+                                    return Number(value)
+                                        .toLocaleString("en-IN");
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+    }
+
+
+    /* =========================================================
+       PRINT ALL REPORTS
+    ========================================================= */
+
+    function printAllReports() {
+
+        window.print();
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

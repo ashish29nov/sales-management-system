@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Management</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+    <style>
+
+        /* =====================================================
+           TABLE FILTER
+        ===================================================== */
+
+        .filter-input {
+            width: 100%;
+            min-width: 90px;
+            padding: 7px 8px;
+            margin-top: 8px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+
+            font-size: 13px;
+            box-sizing: border-box;
+
+            background: #ffffff;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.10);
+        }
+
+        .filter-select {
+            width: 100%;
+            min-width: 130px;
+            padding: 7px 8px;
+            margin-top: 8px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+
+            font-size: 13px;
+            box-sizing: border-box;
+
+            background: #ffffff;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .clear-filter-btn {
+            margin-top: 8px;
+
+            padding: 7px 12px;
+
+            border: none;
+            border-radius: 5px;
+
+            background: #6b7280;
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 13px;
+        }
+
+        .clear-filter-btn:hover {
+            background: #4b5563;
+        }
+
+        .filter-row th {
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .filter-row th:last-child {
+            min-width: 90px;
+        }
+
+        .quantity-value {
+            white-space: nowrap;
+        }
+
+        .amount-value {
+            white-space: nowrap;
+        }
+
+        .filter-result {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 900px) {
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 1050px;
+            }
+
+        }
+        /* =====================================================
+   ADMIN SALES PAGE - MONTH FILTER
+===================================================== */
+
+.month-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.month-filter label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    white-space: nowrap;
+}
+
+.month-filter input[type="month"] {
+    width: 220px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    cursor: pointer;
+}
+
+.month-filter input[type="month"]:hover {
+    border-color: #9ca3af;
+}
+
+.month-filter input[type="month"]:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.10);
+}
+
+
+/* =====================================================
+   SALES TABLE FILTER ROW
+===================================================== */
+
+#salesTable thead .filter-row th {
+    background: #f3f4f6;
+    padding: 10px 12px;
+    vertical-align: top;
+}
+
+
+/* =====================================================
+   ALL FILTER INPUTS
+===================================================== */
+
+#salesTable .filter-input,
+#salesTable .filter-select {
+    height: 36px;
+    padding: 7px 9px;
+    margin-top: 6px;
+
+    border: 1px solid #cfd4dc;
+    border-radius: 5px;
+
+    background: #ffffff;
+    color: #374151;
+
+    font-size: 13px;
+    font-family: inherit;
+
+    box-sizing: border-box;
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+
+/* Text / Date / Number */
+
+#salesTable .filter-input {
+    width: 100%;
+    min-width: 90px;
+}
+
+
+/* Salesperson dropdown */
+
+#salesTable .filter-select {
+    width: 100%;
+    min-width: 130px;
+}
+
+
+/* =====================================================
+   FILTER FOCUS
+===================================================== */
+
+#salesTable .filter-input:focus,
+#salesTable .filter-select:focus {
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 3px rgba(15, 118, 110, 0.10);
+}
+
+
+/* =====================================================
+   FILTER HOVER
+===================================================== */
+
+#salesTable .filter-input:hover,
+#salesTable .filter-select:hover {
+    border-color: #9ca3af;
+}
+
+
+/* =====================================================
+   CLEAR BUTTON
+===================================================== */
+
+#salesTable .clear-filter-btn {
+    height: 36px;
+    margin-top: 6px;
+    padding: 0 13px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #6b7280;
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#salesTable .clear-filter-btn:hover {
+    background: #4b5563;
+}
+
+
+/* =====================================================
+   TABLE HEADER
+===================================================== */
+
+#salesTable thead tr:first-child th {
+    background: #f3f4f6;
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    padding: 14px 12px;
+}
+
+
+/* =====================================================
+   QUANTITY & AMOUNT
+===================================================== */
+
+.quantity-value,
+.amount-value {
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   FILTER RESULT
+===================================================== */
+
+.filter-result {
+    margin-top: 12px;
+
+    font-size: 14px;
+    color: #6b7280;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .month-filter {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .month-filter input[type="month"] {
+        width: 200px;
+    }
+
+    #salesTable {
+        min-width: 1050px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+    /* =====================================================
+   DATE FILTER
+===================================================== */
+
+#filterDate {
+    width: 150px;
+    height: 36px;
+    padding: 6px 8px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+
+    background: #ffffff;
+    color: #374151;
+
+    font-size: 13px;
+    font-family: inherit;
+
+    box-sizing: border-box;
+    outline: none;
+
+    cursor: pointer;
+}
+
+#filterDate:hover {
+    border-color: #9ca3af;
+}
+
+#filterDate:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.10);
+}
+
+
+/* =====================================================
+   CUSTOMER FILTER
+===================================================== */
+
+#filterCustomer {
+    width: 180px;
+    height: 36px;
+    padding: 7px 10px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+
+    background: #ffffff;
+    color: #374151;
+
+    font-size: 13px;
+    font-family: inherit;
+
+    box-sizing: border-box;
+    outline: none;
+}
+
+#filterCustomer::placeholder {
+    color: #6b7280;
+}
+
+#filterCustomer:hover {
+    border-color: #9ca3af;
+}
+
+#filterCustomer:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.10);
+}
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <h2>Sales Management</h2>
+
+        <a href="/admin/logout"
+           class="logout-btn">
+            Logout
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <a href="/admin/dashboard"
+           class="sidebar-link">
+            📊 Dashboard
+        </a>
+
+        <a href="/admin/salespersons"
+           class="sidebar-link">
+            👥 Salespersons
+        </a>
+
+        <a href="/admin/targets"
+           class="sidebar-link">
+            🎯 Targets
+        </a>
+
+        <a href="/admin/sales"
+           class="sidebar-link active">
+            💰 Sales
+        </a>
+
+        <a href="/admin/reports"
+           class="sidebar-link">
+            📈 Reports
+        </a>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="dashboard-content">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Sales Management</h1>
+
+                <p>
+                    Record and manage sales
+                </p>
+
+            </div>
+
+
+            <!-- MONTH FILTER -->
+
+            <form
+                method="get"
+                action="/admin/sales"
+                class="month-filter">
+
+                <label for="salesMonth">
+
+                    📅 Month:
+
+                </label>
+
+                <input
+                    type="month"
+                    id="salesMonth"
+                    name="month"
+                    th:value="${selectedMonth}"
+                    onchange="this.form.submit()">
+
+            </form>
+
+
+            <!-- EXCEL IMPORT -->
+
+            <a th:href="@{/admin/excel-import}"
+               class="primary-btn">
+
+                📥 Import Sales Excel
+
+            </a>
+
+
+            <!-- MANUAL ENTRY -->
+
+            <a th:href="@{/admin/sales/add}"
+               class="secondary-btn">
+
+                + Add Sale Manually
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SALES TABLE
+        ================================================== -->
+
+        <div class="section-card">
+
+            <div class="table-container">
+
+                <table id="salesTable">
+
+                    <thead>
+
+
+                    <!-- =================================================
+                         TABLE HEADER
+                    ================================================== -->
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Date</th>
+
+                        <th>Salesperson</th>
+
+                        <th>Customer</th>
+
+                        <th>Total Product Qty</th>
+
+                        <th>Amount</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         FILTER ROW
+                    ================================================== -->
+
+                    <tr class="filter-row">
+
+
+                        <!-- ID FILTER -->
+
+                        <th>
+
+                            <input
+                                type="text"
+                                id="filterId"
+                                class="filter-input"
+                                placeholder="Search ID"
+                                onkeyup="filterSales()">
+
+                        </th>
+
+
+                        <!-- DATE FILTER -->
+
+                        <th>
+
+                            <input
+                                type="date"
+                                id="filterDate"
+                                class="filter-input"
+                                onchange="filterSales()">
+
+                        </th>
+
+
+                        <!-- SALESPERSON FILTER -->
+
+                        <th>
+
+                            <select
+                                id="filterSalesperson"
+                                class="filter-select"
+                                onchange="filterSales()">
+
+                                <option value="">
+                                    All Salespersons
+                                </option>
+
+                                <option
+                                    th:each="salesperson : ${salespersons}"
+                                    th:value="${salesperson.name}"
+                                    th:text="${salesperson.name}">
+                                    Salesperson
+                                </option>
+
+                            </select>
+
+                        </th>
+
+
+                        <!-- CUSTOMER FILTER -->
+
+                        <th>
+
+                            <input
+                                type="text"
+                                id="filterCustomer"
+                                class="filter-input"
+                                placeholder="Search customer"
+                                onkeyup="filterSales()">
+
+                        </th>
+
+
+                        <!-- QUANTITY FILTER -->
+
+                        <th>
+
+                            <input
+                                type="number"
+                                id="filterQuantity"
+                                class="filter-input"
+                                placeholder="Qty"
+                                step="0.001"
+                                oninput="filterSales()">
+
+                        </th>
+
+
+                        <!-- AMOUNT FILTER -->
+
+                        <th>
+
+                            <input
+                                type="number"
+                                id="filterAmount"
+                                class="filter-input"
+                                placeholder="Amount"
+                                step="0.01"
+                                oninput="filterSales()">
+
+                        </th>
+
+
+                        <!-- CLEAR FILTER -->
+
+                        <th>
+
+                            <button
+                                type="button"
+                                class="clear-filter-btn"
+                                onclick="clearFilters()">
+
+                                Clear
+
+                            </button>
+
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <!-- =================================================
+                         TABLE BODY
+                    ================================================== -->
+
+                    <tbody id="salesTableBody">
+
+
+                    <tr th:each="sale : ${sales}">
+
+
+                        <!-- ID -->
+
+                        <td
+                            class="sale-id"
+                            th:text="${sale.id}">
+
+                            1
+
+                        </td>
+
+
+                        <!-- DATE -->
+
+                        <td
+                            class="sale-date"
+                            th:text="${sale.saleDate}">
+
+                            2026-08-31
+
+                        </td>
+
+
+                        <!-- SALESPERSON -->
+
+                        <td
+                            class="sale-salesperson"
+                            th:text="${sale.salesperson.name}">
+
+                            Amit Kumar
+
+                        </td>
+
+
+                        <!-- CUSTOMER -->
+
+                        <td
+                            class="sale-customer"
+                            th:text="${sale.customerName}">
+
+                            ABC Company
+
+                        </td>
+
+
+                        <!-- TOTAL PRODUCT QUANTITY -->
+
+                        <td class="quantity-value">
+
+                            <strong
+                                th:text="${#numbers.formatDecimal(
+                                    sale.totalProductQuantity,
+                                    1,
+                                    3
+                                )}">
+
+                                0.000
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- AMOUNT -->
+
+                        <td class="amount-value">
+
+                            ₹<span
+                                th:text="${#numbers.formatDecimal(
+                                    sale.saleAmount,
+                                    1,
+                                    2
+                                )}">
+
+                                50000.00
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                           <a th:href="@{/admin/sales/view/{id}(id=${sale.id})}"
+   class="small-btn">
+    👁 View
+</a>
+
+                            <!--
+                            <a
+                                th:href="@{/admin/sales/edit/{id}(id=${sale.id})}"
+                                class="small-btn">
+
+                                ✏️ Edit
+
+                            </a>
+                        -->
+
+
+                            <a
+                                th:href="@{/admin/sales/delete/{id}(id=${sale.id})}"
+                                class="delete-btn"
+                                onclick="return confirm('Delete this sale?')">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    <!-- NO DATA -->
+
+                    <tr th:if="${#lists.isEmpty(sales)}">
+
+                        <td
+                            colspan="7"
+                            class="empty-message">
+
+                            No sales recorded yet.
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+
+
+                <!-- FILTER RESULT -->
+
+                <div
+                    id="filterResult"
+                    class="filter-result">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     FILTER JAVASCRIPT
+========================================================== -->
+
+<script>
+
+function filterSales() {
+
+    const id =
+        document.getElementById("filterId")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const date =
+        document.getElementById("filterDate")
+            .value
+            .trim();
+
+    const salesperson =
+        document.getElementById("filterSalesperson")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const customer =
+        document.getElementById("filterCustomer")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const quantityInput =
+        document.getElementById("filterQuantity")
+            .value
+            .trim();
+
+    const amountInput =
+        document.getElementById("filterAmount")
+            .value
+            .trim();
+
+
+    const quantityFilter =
+        quantityInput === ""
+            ? null
+            : parseFloat(quantityInput);
+
+    const amountFilter =
+        amountInput === ""
+            ? null
+            : parseFloat(amountInput);
+
+
+    const rows =
+        document.querySelectorAll(
+            "#salesTableBody tr"
+        );
+
+
+    let visibleCount = 0;
+    let totalRows = 0;
+
+
+    rows.forEach(function(row) {
+
+        /*
+         * Skip empty/no-data row
+         */
+
+        if (
+            !row.querySelector(".sale-id")
+        ) {
+            return;
+        }
+
+
+        totalRows++;
+
+
+        const rowId =
+            row.querySelector(".sale-id")
+                .textContent
+                .trim()
+                .toLowerCase();
+
+        const rowDate =
+            row.querySelector(".sale-date")
+                .textContent
+                .trim();
+
+        const rowSalesperson =
+            row.querySelector(".sale-salesperson")
+                .textContent
+                .trim()
+                .toLowerCase();
+
+        const rowCustomer =
+            row.querySelector(".sale-customer")
+                .textContent
+                .trim()
+                .toLowerCase();
+
+        const quantityText =
+            row.cells[4]
+                .textContent
+                .trim();
+
+        const amountText =
+            row.cells[5]
+                .textContent
+                .replace("₹", "")
+                .replace(/,/g, "")
+                .trim();
+
+
+        const rowQuantity =
+            parseFloat(quantityText);
+
+        const rowAmount =
+            parseFloat(amountText);
+
+
+        /*
+         * ID
+         */
+
+        const matchId =
+            id === ""
+                || rowId.includes(id);
+
+
+        /*
+         * Date
+         */
+
+        const matchDate =
+            date === ""
+                || rowDate === date;
+
+
+        /*
+         * Salesperson
+         */
+
+        const matchSalesperson =
+            salesperson === ""
+                || rowSalesperson === salesperson;
+
+
+        /*
+         * Customer
+         */
+
+        const matchCustomer =
+            customer === ""
+                || rowCustomer.includes(customer);
+
+
+        /*
+         * Quantity
+         *
+         * Exact match
+         */
+
+        const matchQuantity =
+            quantityFilter === null
+                || Math.abs(
+                    rowQuantity - quantityFilter
+                ) < 0.001;
+
+
+        /*
+         * Amount
+         *
+         * Exact match
+         */
+
+        const matchAmount =
+            amountFilter === null
+                || Math.abs(
+                    rowAmount - amountFilter
+                ) < 0.01;
+
+
+        /*
+         * Final result
+         */
+
+        const show =
+            matchId
+            && matchDate
+            && matchSalesperson
+            && matchCustomer
+            && matchQuantity
+            && matchAmount;
+
+
+        row.style.display =
+            show ? "" : "none";
+
+
+        if (show) {
+            visibleCount++;
+        }
+
+    });
+
+
+    /*
+     * Show filter result
+     */
+
+    const filterResult =
+        document.getElementById("filterResult");
+
+
+    const hasFilter =
+        id !== ""
+        || date !== ""
+        || salesperson !== ""
+        || customer !== ""
+        || quantityInput !== ""
+        || amountInput !== "";
+
+
+    if (hasFilter) {
+
+        filterResult.textContent =
+            "Showing "
+            + visibleCount
+            + " of "
+            + totalRows
+            + " sales";
+
+    } else {
+
+        filterResult.textContent = "";
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR ALL FILTERS
+========================================================= */
+
+function clearFilters() {
+
+    document.getElementById("filterId").value = "";
+
+    document.getElementById("filterDate").value = "";
+
+    document.getElementById("filterSalesperson").value = "";
+
+    document.getElementById("filterCustomer").value = "";
+
+    document.getElementById("filterQuantity").value = "";
+
+    document.getElementById("filterAmount").value = "";
+
+
+    filterSales();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

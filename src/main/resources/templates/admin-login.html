@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <div class="logo-box">
+
+                <div class="login-icon">🛡️</div>
+
+                <h1>Admin Login</h1>
+
+                <p>
+                    Sales Target Management System
+                </p>
+
+            </div>
+
+
+            <div th:if="${param.error}"
+                 class="error-message">
+
+                Invalid admin email or password.
+
+            </div>
+
+
+            <div th:if="${param.logout}"
+                 class="success-message">
+
+                You have been logged out successfully.
+
+            </div>
+
+
+            <form action="/admin/login"
+                  method="post">
+
+                <div class="form-group">
+
+                    <label>Email Address</label>
+
+                    <input
+                        type="email"
+                        name="username"
+                        class="form-control"
+                        placeholder="Enter admin email"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Enter password"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn">
+
+                    Login as Admin
+
+                </button>
+
+            </form>
+
+
+            <a href="/"
+               class="back-link">
+
+                ← Back to Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

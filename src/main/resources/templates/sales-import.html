@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Import Sales</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <nav class="navbar">
+
+        <h2>Sales Management</h2>
+
+        <div class="user-info">
+
+            <span th:text="${salesperson.name}">
+                Salesperson
+            </span>
+
+            <a href="/sales/logout"
+               class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <aside class="sidebar">
+
+        <a href="/sales/dashboard"
+           class="sidebar-link">
+            📊 Dashboard
+        </a>
+
+        <a href="/sales/my-sales"
+           class="sidebar-link active">
+            💰 My Sales
+        </a>
+        <a href="/sales/my-clients"
+           class="sidebar-link">
+
+            👥 My Clients
+
+        </a>
+
+        <a href="/sales/my-target"
+           class="sidebar-link">
+            🎯 My Target
+        </a>
+
+        <a href="/sales/my-report"
+           class="sidebar-link">
+            📈 My Report
+        </a>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Import Sales Excel</h1>
+
+                <p>
+                    Import your sales data from Excel
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Success Message -->
+
+        <div th:if="${successMessage}"
+             class="success-message"
+             th:text="${successMessage}">
+        </div>
+
+
+        <!-- Error Message -->
+
+        <div th:if="${errorMessage}"
+             class="error-message"
+             th:text="${errorMessage}">
+        </div>
+
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Upload Excel File</h2>
+
+                    <p>
+                        Use the following exact column format
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-bottom: 20px;">
+
+                <strong>Required Excel Headers:</strong>
+
+                <p>
+                    Date |
+                    Vch/Bill No |
+                    Particulars |
+                    Item Details |
+                    Material Centre |
+                    Qty. |
+                    Unit |
+                    Price |
+                    Amount
+                </p>
+
+            </div>
+
+
+            <form method="post"
+      action="/sales/sales/import-preview"
+      enctype="multipart/form-data">
+
+                <div class="excel-upload-box">
+
+    <label for="file" class="excel-upload-label">
+        📊 Select Excel File
+    </label>
+
+    <div class="excel-file-wrapper">
+
+        <input type="file"
+               id="file"
+               name="file"
+               class="excel-file-input"
+               accept=".xlsx,.xls"
+               required>
+
+        <label for="file"
+               class="excel-file-button">
+            📁 Choose Excel File
+        </label>
+
+        <span id="selectedFileName"
+              class="selected-file-name">
+            No file selected
+        </span>
+
+    </div>
+
+    <p class="excel-upload-help">
+        Supported formats: .xlsx, .xls
+    </p>
+
+</div>
+
+
+                <button type="submit"
+        class="action-btn preview-btn">
+    👁 Preview Excel
+</button>    
+
+
+                <a href="/sales/my-sales"
+                   class="action-btn">
+
+                    ← Back
+
+                </a>
+
+            </form>
+
+        </div>
+
+
+        <div class="section-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Important</h2>
+
+                </div>
+
+            </div>
+
+            <ul>
+
+                <li>
+                    Excel mein salesperson ka column nahi hona chahiye.
+                </li>
+
+                <li>
+                    Salesperson automatically logged-in user hoga.
+                </li>
+
+                <li>
+                    Same Vch/Bill No ki multiple rows ek hi sale mein
+                    multiple products ke roop mein save hongi.
+                </li>
+
+                <li>
+                    Amount automatically Qty × Price se calculate hoga.
+                </li>
+
+                <li>
+                    Material Centre abhi database mein store nahi hoga.
+                </li>
+
+                <li>
+                    Existing invoice dobara import karne par import fail hoga.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </main>
+
+</div>
+<script>
+
+document.getElementById("file").addEventListener("change", function () {
+
+    const fileNameElement =
+        document.getElementById("selectedFileName");
+
+    if (this.files.length > 0) {
+
+        fileNameElement.textContent =
+            "📄 " + this.files[0].name;
+
+        fileNameElement.style.color = "#111827";
+
+    } else {
+
+        fileNameElement.textContent =
+            "No file selected";
+
+        fileNameElement.style.color = "#6b7280";
+    }
+
+});
+
+</script>
+</body>
+</html>

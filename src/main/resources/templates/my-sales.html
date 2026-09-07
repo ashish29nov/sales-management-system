@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Sales</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar">
+
+        <h2>
+            Sales Management
+        </h2>
+
+
+        <div class="user-info">
+
+            <span th:text="${salesperson.name}">
+                Salesperson
+            </span>
+
+
+            <a href="/sales/logout"
+               class="logout-btn">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+
+        <a href="/sales/dashboard"
+           class="sidebar-link">
+
+            📊 Dashboard
+
+        </a>
+
+
+        <a href="/sales/my-sales"
+           class="sidebar-link active">
+
+            💰 My Sales
+
+        </a>
+        <a href="/sales/my-clients"
+   class="sidebar-link">
+
+    👥 My Clients
+
+</a>
+
+
+        <a href="/sales/my-target"
+           class="sidebar-link">
+
+            🎯 My Target
+
+        </a>
+
+
+        <a href="/sales/my-report"
+           class="sidebar-link">
+
+            📈 My Report
+
+        </a>
+
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="dashboard-content">
+
+
+        <!-- =====================================
+             PAGE HEADER
+        ====================================== -->
+
+        <div class="page-header">
+
+
+            <div>
+
+                <h1>
+                    My Sales
+                </h1>
+
+                <p>
+                    View your sales records
+                </p>
+
+            </div>
+
+
+            <!-- =================================
+                 ACTION BUTTONS
+            ================================== -->
+
+            <div class="page-actions">
+
+
+                <!-- IMPORT EXCEL -->
+
+                <a href="/sales/sales/import"
+                   class="action-btn">
+
+                    📥 Import Sales Excel
+
+                </a>
+
+
+                <!-- MANUAL SALE -->
+                <!--
+                <a href="/sales/sales/add"
+                   class="action-btn">
+
+                    ➕ Add Sale
+
+                </a>
+                -->
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             MONTH FILTER
+        ====================================== -->
+
+        <div class="section-card">
+
+
+            <div class="dashboard-month">
+
+
+                <form method="get"
+                      action="/sales/my-sales">
+
+
+                    <label for="salesMonth">
+
+                        📅 Month:
+
+                    </label>
+
+
+                    <input
+                        type="month"
+                        id="salesMonth"
+                        name="month"
+                        th:value="${month}"
+                        onchange="this.form.submit()">
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             SALES TABLE
+        ====================================== -->
+
+        <div class="section-card">
+
+
+            <div class="section-header">
+
+
+                <div>
+
+                    <h2>
+                        Sales Records
+                    </h2>
+
+                    <p>
+                        Sales for the selected month
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="table-container">
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Date
+                <br>
+                <input type="date"
+                       id="dateFilter"
+                       style="width: 130px; margin-top: 8px;">
+            </th>
+
+            <th>
+                Customer
+                <br>
+                <input type="text"
+                       id="customerFilter"
+                       placeholder="Search customer"
+                       style="width: 160px; margin-top: 8px;">
+            </th>
+
+            <th>Product Qty</th>
+
+            <th>Amount</th>
+
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="salesTableBody">
+
+        <tr th:each="sale : ${sales}">
+
+            <td th:text="${sale.saleDate}">
+                2026-09-01
+            </td>
+
+            <td th:text="${sale.customerName}">
+                Customer Name
+            </td>
+
+            <td>
+                <span th:text="${#numbers.formatDecimal(
+                    sale.totalProductQuantity, 1, 3)}">
+                    0.000
+                </span>
+            </td>
+
+            <td>
+                ₹<span th:text="${#numbers.formatDecimal(
+                    sale.totalAmount, 1, 2)}">
+                    0.00
+                </span>
+            </td>
+
+            <td>
+                <a th:href="@{/sales/my-sales/view/{id}(id=${sale.id})}"
+   class="action-btn">
+    👁 View
+</a>
+            </td>
+
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(sales)}"
+            id="noSalesMessage">
+            <td colspan="5"
+                class="empty-message">
+                No sales found.
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+<script>
+    const dateFilter =
+        document.getElementById("dateFilter");
+
+    const customerFilter =
+        document.getElementById("customerFilter");
+
+    const rows =
+        document.querySelectorAll(
+            "#salesTableBody tr[th\\:each]"
+        );
+
+    dateFilter.addEventListener("change", filterSales);
+    customerFilter.addEventListener("input", filterSales);
+
+    function filterSales() {
+
+        const selectedDate =
+            dateFilter.value;
+
+        const customer =
+            customerFilter.value
+                .toLowerCase()
+                .trim();
+
+        let visibleCount = 0;
+
+        document.querySelectorAll(
+            "#salesTableBody tr"
+        ).forEach(function(row) {
+
+            const cells = row.querySelectorAll("td");
+
+            // Skip empty/no-sales row
+            if (cells.length < 5) {
+                return;
+            }
+
+            const saleDate =
+                cells[0].innerText.trim();
+
+            const customerName =
+                cells[1].innerText
+                    .toLowerCase()
+                    .trim();
+
+            const dateMatch =
+                !selectedDate ||
+                saleDate === selectedDate;
+
+            const customerMatch =
+                !customer ||
+                customerName.includes(customer);
+
+            if (dateMatch && customerMatch) {
+
+                row.style.display = "";
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+            }
+        });
+
+        let noResult =
+            document.getElementById("noFilterResult");
+
+        if (visibleCount === 0) {
+
+            if (!noResult) {
+
+                noResult =
+                    document.createElement("tr");
+
+                noResult.id =
+                    "noFilterResult";
+
+                noResult.innerHTML =
+                    '<td colspan="5" class="empty-message">' +
+                    'No sales found for selected filter.' +
+                    '</td>';
+
+                document.getElementById(
+                    "salesTableBody"
+                ).appendChild(noResult);
+            }
+
+        } else {
+
+            if (noResult) {
+                noResult.remove();
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
