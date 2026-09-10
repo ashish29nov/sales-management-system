@@ -54,9 +54,9 @@
         <div class="form-card">
 
             <form
-                action="/admin/salespersons/save"
-                method="post"
-                th:object="${user}">
+                th:action="@{/admin/salespersons/save}"
+    method="post"
+    th:object="${user}">
 
 
                 <div class="form-row">

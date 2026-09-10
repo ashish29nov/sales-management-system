@@ -1,3 +1,4 @@
+
 package com.sales.management.config;
 
 import com.sales.management.model.User;
@@ -18,17 +19,22 @@ public class DataInitializer {
 
         return args -> {
 
+            // =========================
+            // ADMIN USER
+            // =========================
+
             if (userRepository.findByEmail("admin@company.com")
                     .isEmpty()) {
 
                 User admin = new User();
 
+                admin.setUsername("admin");
                 admin.setEmployeeId("ADMIN001");
                 admin.setName("System Admin");
                 admin.setEmail("admin@company.com");
 
                 admin.setPassword(
-                    passwordEncoder.encode("Admin@123")
+                        passwordEncoder.encode("Admin@123")
                 );
 
                 admin.setRole("ADMIN");
@@ -40,17 +46,22 @@ public class DataInitializer {
             }
 
 
+            // =========================
+            // SALESPERSON USER
+            // =========================
+
             if (userRepository.findByEmail("rahul@company.com")
                     .isEmpty()) {
 
                 User salesperson = new User();
 
+                salesperson.setUsername("rahul");
                 salesperson.setEmployeeId("EMP1001");
                 salesperson.setName("Rahul");
                 salesperson.setEmail("rahul@company.com");
 
                 salesperson.setPassword(
-                    passwordEncoder.encode("Sales@123")
+                        passwordEncoder.encode("Sales@123")
                 );
 
                 salesperson.setRole("SALESPERSON");

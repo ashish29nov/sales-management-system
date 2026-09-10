@@ -398,21 +398,52 @@ public String dashboard(
     // =========================================================
 
     @PostMapping("/salespersons/save")
-    public String saveSalesperson(
-            @ModelAttribute User user) {
+public String saveSalesperson(
+        @ModelAttribute("user") User user) {
 
-        user.setRole("SALESPERSON");
-
-        user.setActive(true);
-
-        user.setPassword(
-                passwordEncoder.encode(
-                        user.getPassword()));
-
-        userRepository.save(user);
-
-        return "redirect:/admin/salespersons";
+    // Validate email
+    if (user.getEmail() == null || user.getEmail().isBlank()) {
+        throw new IllegalArgumentException("Email is required");
     }
+
+    String email = user.getEmail().trim().toLowerCase();
+
+    // Email = Login Username
+    user.setEmail(email);
+    user.setUsername(email);
+
+    // Role
+    user.setRole("SALESPERSON");
+
+    // Account status
+    user.setActive(true);
+    user.setEnabled(true);
+
+    // Password validation
+    if (user.getPassword() == null || user.getPassword().isBlank()) {
+        throw new IllegalArgumentException("Password is required");
+    }
+
+    // Encrypt password
+    user.setPassword(
+            passwordEncoder.encode(user.getPassword())
+    );
+
+    // DEBUG - temporarily keep this
+    System.out.println("========== SALESPERSON SAVE ==========");
+    System.out.println("Name     : " + user.getName());
+    System.out.println("Email    : " + user.getEmail());
+    System.out.println("Username : " + user.getUsername());
+    System.out.println("Employee : " + user.getEmployeeId());
+    System.out.println("Role     : " + user.getRole());
+    System.out.println("Active   : " + user.isActive());
+    System.out.println("Enabled  : " + user.isEnabled());
+    System.out.println("======================================");
+
+    userRepository.save(user);
+
+    return "redirect:/admin/salespersons";
+}
 
     // =========================================================
     // DELETE SALESPERSON
