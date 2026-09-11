@@ -23,7 +23,7 @@ public class DataInitializer {
             // ADMIN USER
             // =========================
 
-            if (userRepository.findByEmail("admin@company.com")
+            if (userRepository.findByEmail("admin@gseindia.com")
                     .isEmpty()) {
 
                 User admin = new User();
@@ -31,14 +31,14 @@ public class DataInitializer {
                 admin.setUsername("admin");
                 admin.setEmployeeId("ADMIN001");
                 admin.setName("System Admin");
-                admin.setEmail("admin@company.com");
+                admin.setEmail("admin@gseindia.com");
 
                 admin.setPassword(
-                        passwordEncoder.encode("Admin@123")
+                        passwordEncoder.encode("Admin@1996")
                 );
 
                 admin.setRole("ADMIN");
-                admin.setMobile("9999999999");
+                admin.setMobile("9999906021");
                 admin.setCity("Delhi");
                 admin.setActive(true);
 
@@ -50,23 +50,23 @@ public class DataInitializer {
             // SALESPERSON USER
             // =========================
 
-            if (userRepository.findByEmail("rahul@company.com")
+            if (userRepository.findByEmail("ashish@boot.com")
                     .isEmpty()) {
 
                 User salesperson = new User();
 
-                salesperson.setUsername("rahul");
+                salesperson.setUsername("ashish");
                 salesperson.setEmployeeId("EMP1001");
-                salesperson.setName("Rahul");
-                salesperson.setEmail("rahul@company.com");
+                salesperson.setName("Ashish");
+                salesperson.setEmail("ashish@boot.com");
 
                 salesperson.setPassword(
-                        passwordEncoder.encode("Sales@123")
+                        passwordEncoder.encode("Ashish@1996")
                 );
 
                 salesperson.setRole("SALESPERSON");
-                salesperson.setMobile("9999999998");
-                salesperson.setCity("Delhi");
+                salesperson.setMobile("9695987071");
+                salesperson.setCity("Noida");
                 salesperson.setActive(true);
 
                 userRepository.save(salesperson);
